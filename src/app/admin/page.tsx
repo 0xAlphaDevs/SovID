@@ -1,7 +1,17 @@
-import React from "react";
+"use client";
+
+import React, { useEffect } from "react";
+import AdminNavbar from "@/components/admin/navbar";
 
 const Admin = () => {
-  return <div>Admin</div>;
+  return (
+    <>
+      <AdminNavbar />
+      <div>
+        <></>
+      </div>
+    </>
+  );
 };
 
 export default Admin;
