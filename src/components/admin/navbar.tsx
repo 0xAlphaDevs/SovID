@@ -37,7 +37,7 @@ const navListItems = [
   {
     label: "Dashboard",
     icon: UserCircleIcon,
-    href: "/admim/dashboard",
+    href: "/admin/dashboard",
     active: false,
   },
   {
