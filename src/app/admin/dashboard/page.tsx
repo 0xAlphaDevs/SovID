@@ -1,13 +1,16 @@
 import React from "react";
 import { Connected } from "@/components/connected";
 import AdminNavbar from "@/components/admin/navbar";
+import { InfoCard } from "@/components/admin/dashboard/info-card";
 
 const Dashboard = () => {
   return (
     <>
       <Connected>
         <AdminNavbar />
-        <div className="p-8 flex flex-col gap-4"></div>
+        <div className="p-8 flex flex-col gap-4">
+          <InfoCard />
+        </div>
       </Connected>
     </>
   );
