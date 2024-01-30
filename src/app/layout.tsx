@@ -1,7 +1,7 @@
 import "./globals.css";
 
 export const metadata = {
-  title: "SBTify-User",
+  title: "SovID",
 };
 
 export default function RootLayout({
