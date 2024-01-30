@@ -37,19 +37,19 @@ const navListItems = [
   {
     label: "Dashboard",
     icon: UserCircleIcon,
-    href: "/dashboard",
+    href: "/admim/dashboard",
     active: false,
   },
   {
     label: "Issue a SBT",
     icon: IdentificationIcon,
-    href: "/issue",
+    href: "/admin/issue",
     active: false,
   },
   {
     label: "Request for Verification",
     icon: CheckBadgeIcon,
-    href: "/verification",
+    href: "/admin/verification",
     active: false,
   },
 ];
@@ -59,19 +59,19 @@ function NavList() {
   // console.log(pathname);
 
   switch (pathname) {
-    case "/dashboard":
+    case "/admin/dashboard":
       navListItems[0].active = true;
       navListItems[1].active = false;
       navListItems[2].active = false;
       break;
 
-    case "/issue":
+    case "/admin/issue":
       navListItems[0].active = false;
       navListItems[1].active = true;
       navListItems[2].active = false;
       break;
 
-    case "/verification":
+    case "/admin/verification":
       navListItems[0].active = false;
       navListItems[1].active = false;
       navListItems[2].active = true;
