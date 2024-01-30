@@ -3,7 +3,7 @@ import {
   passportIdContractABI,
   employeeIdContractABI,
   nationalIdContractABI,
-} from "@/lib/contract";
+} from "@/lib/abi";
 
 export const sbts: { [key: string]: any } = {
   // "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266": {
