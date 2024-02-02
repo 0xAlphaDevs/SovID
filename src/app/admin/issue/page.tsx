@@ -8,7 +8,6 @@ import StepperIssueSbt from "@/components/admin/issue/stepper";
 
 const Issue = () => {
   const searchParams = useSearchParams();
-
   const tokenName = searchParams.get("tokenName");
   const tokenAddress = searchParams.get("tokenAddress");
   return (
