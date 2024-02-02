@@ -8,8 +8,8 @@ import {
   useWaitForTransaction,
 } from "wagmi";
 import { DefaultSpinner } from "./spinner";
-// import SuccessIcon from "../icons/successIcon";
-// import ErrorIcon from "../icons/errorIcon";
+import SuccessIcon from "@/components/icons/successIcon";
+import ErrorIcon from "@/components/icons/errorIcon";
 
 export default function FillSbtDetails({
   tokenName,
@@ -151,7 +151,7 @@ export default function FillSbtDetails({
           <Alert
             open={open}
             onClose={() => setOpen(false)}
-            // icon={<SuccessIcon />}
+            icon={<SuccessIcon />}
             color="green"
           >
             Request Succesful
@@ -162,7 +162,7 @@ export default function FillSbtDetails({
           <Alert
             open={open}
             onClose={() => setOpen(false)}
-            // icon={<ErrorIcon />}
+            icon={<ErrorIcon />}
             color="red"
           >
             Oops! There was an error.
