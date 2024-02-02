@@ -123,7 +123,7 @@ export default function UserNavbar() {
             placeholder=""
           >
             <FingerPrintIcon className="h-12 w-12 inline-block mr-2 text-gray-500" />
-            <span className="font-extrabold text-purple-400">SBT</span>ify
+            sov<span className="font-extrabold text-purple-400">ID</span>
           </Typography>
           <div className="absolute top-2/4 left-2/4 hidden -translate-x-2/4 -translate-y-2/4 lg:block">
             <NavList />
