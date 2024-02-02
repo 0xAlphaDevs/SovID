@@ -17,8 +17,8 @@ import {
   Chip,
 } from "@material-tailwind/react";
 import { useAccount, useEnsName, useContractRead } from "wagmi";
-import { useState, useEffect } from "react";
-import { authorizationTokenContractConfig } from "@/lib/contracts";
+import { useState, useEffect, use } from "react";
+import { authorizedUserTokenContractConfig } from "@/lib/contracts";
 
 export function InfoCard() {
   const { address } = useAccount();
@@ -26,7 +26,7 @@ export function InfoCard() {
 
   const [walletAddress, setWalletAddress] = useState<any>(address);
   const [authToken, setAuthToken] = useState<any>({
-    organizationName: "",
+    userName: "",
     category: "",
     allowedSBTs: [],
   });
@@ -44,10 +44,14 @@ export function InfoCard() {
   }
 
   const { data, error, isLoading, isSuccess } = useContractRead({
-    ...authorizationTokenContractConfig,
-    functionName: "verifyCredential",
+    ...authorizedUserTokenContractConfig,
+    functionName: "getVerifiedUserMetadata",
     args: [walletAddress],
     enabled: Boolean(walletAddress),
+    onSuccess: (data) => {
+      console.log("Queried Auth Token", data);
+      setAuthToken(data);
+    },
   });
 
   return (
@@ -71,10 +75,7 @@ export function InfoCard() {
           className="font-normal uppercase"
         >
           Welcome,{" "}
-          <span className="text-blue-300 font-bold">
-            {" "}
-            {authToken.organizationName}
-          </span>
+          <span className="text-blue-300 font-bold"> {authToken.userName}</span>
         </Typography>
         <Typography
           placeholder=""

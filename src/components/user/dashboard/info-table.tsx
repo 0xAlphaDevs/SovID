@@ -41,25 +41,27 @@ export function InfoTable() {
       {
         address: SBTS[0].sbtAddress,
         abi: SBTS[0].abi,
-        functionName: "getTokenIdsByWallet",
+        functionName: "getTokensInWallet",
       },
       {
         address: SBTS[1].sbtAddress,
         abi: SBTS[1].abi,
-        functionName: "getTokenIdsByWallet",
+        functionName: "getTokensInWallet",
       },
       {
         address: SBTS[2].sbtAddress,
         abi: SBTS[2].abi,
-        functionName: "getTokenIdsByWallet",
+        functionName: "getTokensInWallet",
       },
       {
         address: SBTS[3].sbtAddress,
         abi: SBTS[3].abi,
-        functionName: "getTokenIdsByWallet",
+        functionName: "getTokensInWallet",
       },
     ],
     onSuccess: (data: any) => {
+      console.log("Queried SBTS");
+
       let allWalletSbts: any = [];
 
       let educationIdSbts = data[0].result;
@@ -145,7 +147,7 @@ export function InfoTable() {
         <div className="mb-8 flex items-center justify-between gap-8">
           <div>
             <Typography variant="h5" color="blue-gray" placeholder="">
-              Issued SBTs
+              Owned SBTs
             </Typography>
             <Typography
               color="gray"

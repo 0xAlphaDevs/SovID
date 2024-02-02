@@ -36,12 +36,14 @@ import { ConnectKitButton } from "connectkit";
 
 const navListItems = [
   {
+    key: 1,
     label: "Dashboard",
     icon: UserCircleIcon,
     href: "/user/dashboard",
     active: false,
   },
   {
+    key: 2,
     label: "Verification Requests",
     icon: CheckBadgeIcon,
     href: "/user/verification",

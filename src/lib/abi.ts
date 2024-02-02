@@ -1,6 +1,6 @@
 //after final deployemnt of contratcts will insert the contracts here
 // ABIs
-export const authorizationTokenABI = [
+export const authorizedUserTokenABI = [
   {
     inputs: [],
     stateMutability: "nonpayable",
@@ -123,11 +123,29 @@ export const authorizationTokenABI = [
     inputs: [
       {
         internalType: "address",
-        name: "credentialHolder",
+        name: "issuer",
         type: "address",
       },
     ],
-    name: "addVerifier",
+    name: "addIssuer",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "organizationWallet",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "newSBT",
+        type: "address",
+      },
+    ],
+    name: "addNewAllowedSBT",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -191,17 +209,39 @@ export const authorizationTokenABI = [
   {
     inputs: [
       {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
+        internalType: "address",
+        name: "credentialHolder",
+        type: "address",
       },
     ],
-    name: "getVerificationRequests",
+    name: "getVerifiedUserMetadata",
     outputs: [
       {
-        internalType: "address[]",
+        components: [
+          {
+            internalType: "uint256",
+            name: "tokenId",
+            type: "uint256",
+          },
+          {
+            internalType: "string",
+            name: "userName",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "category",
+            type: "string",
+          },
+          {
+            internalType: "address[]",
+            name: "allowedSBTs",
+            type: "address[]",
+          },
+        ],
+        internalType: "struct AuthorizedUserToken.AuthToken",
         name: "",
-        type: "address[]",
+        type: "tuple",
       },
     ],
     stateMutability: "view",
@@ -260,6 +300,34 @@ export const authorizationTokenABI = [
     type: "function",
   },
   {
+    inputs: [
+      {
+        internalType: "address",
+        name: "to",
+        type: "address",
+      },
+      {
+        internalType: "string",
+        name: "userName",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "category",
+        type: "string",
+      },
+      {
+        internalType: "address[]",
+        name: "allowedSBTs",
+        type: "address[]",
+      },
+    ],
+    name: "mintDefaultAuthSbtForTesting",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     inputs: [],
     name: "name",
     outputs: [
@@ -308,16 +376,11 @@ export const authorizationTokenABI = [
     inputs: [
       {
         internalType: "address",
-        name: "credentialHolder",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "verifier",
+        name: "issuer",
         type: "address",
       },
     ],
-    name: "removeVerifier",
+    name: "removeIssuer",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -325,37 +388,6 @@ export const authorizationTokenABI = [
   {
     inputs: [],
     name: "renounceOwnership",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "credentialHolder",
-        type: "address",
-      },
-    ],
-    name: "requestForVerification",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "credentialHolder",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-    ],
-    name: "revokeCredential",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -514,47 +546,6 @@ export const authorizationTokenABI = [
     name: "transferOwnership",
     outputs: [],
     stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "credentialHolder",
-        type: "address",
-      },
-    ],
-    name: "verifyCredential",
-    outputs: [
-      {
-        components: [
-          {
-            internalType: "uint256",
-            name: "tokenId",
-            type: "uint256",
-          },
-          {
-            internalType: "string",
-            name: "organizationName",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "category",
-            type: "string",
-          },
-          {
-            internalType: "address[]",
-            name: "allowedSBTs",
-            type: "address[]",
-          },
-        ],
-        internalType: "struct AuthorizationToken.AuthToken",
-        name: "",
-        type: "tuple",
-      },
-    ],
-    stateMutability: "view",
     type: "function",
   },
 ];
