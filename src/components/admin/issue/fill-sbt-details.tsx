@@ -7,7 +7,7 @@ import {
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
-import { DefaultSpinner } from "./spinner";
+import { DefaultSpinner } from "../spinner";
 import SuccessIcon from "@/components/icons/successIcon";
 import ErrorIcon from "@/components/icons/errorIcon";
 
