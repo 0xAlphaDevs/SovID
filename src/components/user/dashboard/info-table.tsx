@@ -28,64 +28,75 @@ export function InfoTable() {
   const { data, isSuccess, isLoading } = useContractReads({
     contracts: [
       {
-        address: sbts.edu.sbtAddress,
-        abi: sbts.edu.abi,
-        functionName: "verifyCredential",
-        args: [0],
+        address: sbts.EDU.sbtAddress,
+        abi: sbts.EDU.abi,
+        functionName: "getTokenIdsByWallet",
+        args: [],
       },
-      // {
-      //   address: SBTS[1].sbtAddress,
-      //   abi: SBTS[1].abi,
-      //   functionName: "verifyCredential",
-      // },
-      // {
-      //   address: SBTS[2].sbtAddress,
-      //   abi: SBTS[2].abi,
-      //   functionName: "verifyCredential",
-      // },
-      // {
-      //   address: SBTS[3].sbtAddress,
-      //   abi: SBTS[3].abi,
-      //   functionName: "verifyCredential",
-      // },
+      {
+        address: sbts.EMP.sbtAddress,
+        abi: sbts.EMP.abi,
+        functionName: "getTokenIdsByWallet",
+        args: [],
+      },
+      {
+        address: sbts.SSN.sbtAddress,
+        abi: sbts.SSN.abi,
+        functionName: "getTokenIdsByWallet",
+        args: [],
+      },
+      {
+        address: sbts.PID.sbtAddress,
+        abi: sbts.PID.abi,
+        functionName: "getTokenIdsByWallet",
+        args: [],
+      },
     ],
     onSuccess: (data: any) => {
       console.log("Queried SBTS", data);
 
       let allWalletSbts: any = [];
 
-      let educationIdSbts = data;
-      // let employeeIdSbts = data[1].result;
-      // let nationalIdSbts = data[2].result;
-      // let passportIdSbts = data[3].result;
+      let educationIdSbts = data[0].result;
+      let employeeIdSbts = data[1].result;
+      let nationalIdSbts = data[2].result;
+      let passportIdSbts = data[3].result;
 
       educationIdSbts.forEach((sbt: any) => {
-        allWalletSbts.push(sbt.result);
+        allWalletSbts.push({
+          sbtName: sbts.EDU.sbtName,
+          sbtSymbol: sbts.EDU.sbtSymbol,
+          sbtAddress: sbts.EDU.sbtAddress,
+          tokenId: sbt,
+        });
       });
 
-      // employeeIdSbts.forEach((element: any) => {
-      //   allWalletSbts.push({
-      //     sbtName: SBTS[1].sbtName,
-      //     sbtSymbol: SBTS[1].sbtSymbol,
-      //     sbtAddress: SBTS[1].sbtAddress,
-      //   });
-      // });
+      employeeIdSbts.forEach((sbt: any) => {
+        allWalletSbts.push({
+          sbtName: sbts.EMP.sbtName,
+          sbtSymbol: sbts.EMP.sbtSymbol,
+          sbtAddress: sbts.EMP.sbtAddress,
+          tokenId: sbt,
+        });
+      });
 
-      // nationalIdSbts.forEach((element: any) => {
-      //   allWalletSbts.push({
-      //     sbtName: SBTS[2].sbtName,
-      //     sbtSymbol: SBTS[2].sbtSymbol,
-      //     sbtAddress: SBTS[2].sbtAddress,
-      //   });
-      // });
+      nationalIdSbts.forEach((sbt: any) => {
+        allWalletSbts.push({
+          sbtName: sbts.SSN.sbtName,
+          sbtSymbol: sbts.SSN.sbtSymbol,
+          sbtAddress: sbts.SSN.sbtAddress,
+          tokenId: sbt,
+        });
+      });
 
-      // passportIdSbts.forEach((element: any) => {
-      //   allWalletSbts.push({
-      //     sbtName: SBTS[3].sbtName,
-      //     sbtSymbol: SBTS[3].sbtSymbol,
-      //     sbtAddress: SBTS[3].sbtAddress,
-      //   });
-      // });
+      passportIdSbts.forEach((sbt: any) => {
+        allWalletSbts.push({
+          sbtName: sbts.PID.sbtName,
+          sbtSymbol: sbts.PID.sbtSymbol,
+          sbtAddress: sbts.PID.sbtAddress,
+          tokenId: sbt,
+        });
+      });
 
       console.log("ALL SBTS", allWalletSbts);
       setWalletSbts(allWalletSbts);
@@ -250,7 +261,7 @@ export function InfoTable() {
                             className="font-bold"
                             placeholder=""
                           >
-                            {tokenId}
+                            {String(tokenId)}
                           </Typography>
                         </div>
                       </td>
@@ -259,6 +270,7 @@ export function InfoTable() {
                         <div className="flex flex-col">
                           <ViewModal
                             sbtName={sbtName}
+                            sbtSymbol={sbtSymbol}
                             tokenId={tokenId}
                             sbtAddress={sbtAddress}
                           />

@@ -11,16 +11,22 @@ import { sbts } from "@/constants/sbt";
 
 interface ViewModalProps {
   sbtName: string;
+  sbtSymbol: string;
   sbtAddress: `0x${string}`;
   tokenId: string;
 }
 
-export function ViewModal({ sbtName, sbtAddress, tokenId }: ViewModalProps) {
+export function ViewModal({
+  sbtName,
+  sbtSymbol,
+  sbtAddress,
+  tokenId,
+}: ViewModalProps) {
   const [open, setOpen] = React.useState(false);
 
   const { data, isRefetching, refetch } = useContractRead({
     address: sbtAddress, // Fix: Prefix sbtAddress with '0x'
-    abi: sbts.edu.abi,
+    abi: sbts["EDU"].abi,
     functionName: "verifyCredential",
     args: [tokenId],
     onSuccess: (data: any) => {
@@ -52,14 +58,14 @@ export function ViewModal({ sbtName, sbtAddress, tokenId }: ViewModalProps) {
         <DialogBody placeholder="">
           <div className="bg-green-200 w-96 p-8 rounded-lg shadow-xl max-w-sm mx-auto border deep-purple-700">
             <ul>
-              {data?.Object.keys(data).map((field: string) => (
+              {/* {data?.Object.keys(data).map((field: string) => (
                 <li key={field}>
                   <strong>
                     {field} : {String(data?.[field])}
                   </strong>{" "}
-                  {/* Add static values here if available */}
+                
                 </li>
-              ))}
+              ))} */}
             </ul>
           </div>
         </DialogBody>
