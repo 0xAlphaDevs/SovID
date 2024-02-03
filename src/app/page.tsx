@@ -1,33 +1,72 @@
 "use client";
-import { AdminForm } from "@/components/admin-form";
-import { UserForm } from "@/components/user-form";
+
+import React, { useEffect } from "react";
+import { useAccount } from "wagmi";
+import { useRouter } from "next/navigation";
+import { ConnectKitButton } from "connectkit";
 import {
   Card,
-  CardHeader,
   CardBody,
+  CardFooter,
   Typography,
-  Tooltip,
 } from "@material-tailwind/react";
-import Link from "next/link";
+import HomeNavbar from "@/components/navbar";
 
-import React from "react";
+const Admin = () => {
+  const { address, isDisconnected } = useAccount();
+  const router = useRouter();
 
-export default function Homepage() {
+  React.useEffect(() => {
+    if (address) {
+      router.push("/");
+    }
+  }, [address]);
+
   return (
     <>
-      <Card className="mt-6 w-96 flex flex-col justify-around" placeholder="">
-        <p className="flex justify-center">Are you a user or Admin?</p>
-        <CardBody placeholder="">
-          <div className="flex justify-around">
-            <Link href="">
-              <UserForm />
-            </Link>
-            <Link href="">
-              <AdminForm />
-            </Link>
+      {isDisconnected && (
+        <>
+          <HomeNavbar />
+          <div className="text-center">
+            {" "}
+            <Card className="mt-6 mx-20" placeholder="">
+              <CardBody placeholder="">
+                <Typography
+                  placeholder=""
+                  variant="h5"
+                  color="blue-gray"
+                  className="mb-2"
+                >
+                  Hello there 👋
+                </Typography>
+                <Typography placeholder="">
+                  Connect your wallet to get started.
+                  <br />
+                  <br />
+                  {/* In case you are a User,{" "}
+                  <a href="/user" className="cursor-pointer underline">
+                    Click here
+                  </a>{" "}
+                  to go to user dashboard. */}
+                </Typography>
+                {/* <Typography placeholder="">
+                  <br />
+                  In case you are an Admin,{" "}
+                  <a href="/user" className="cursor-pointer underline">
+                    Click here
+                  </a>{" "}
+                  to go to admin dashboard.
+                </Typography> */}
+              </CardBody>
+              <CardFooter className="pt-0 flex justify-center" placeholder="">
+                <ConnectKitButton />
+              </CardFooter>
+            </Card>
           </div>
-        </CardBody>
-      </Card>
+        </>
+      )}
     </>
   );
-}
+};
+
+export default Admin;
