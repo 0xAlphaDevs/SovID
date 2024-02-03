@@ -149,7 +149,7 @@ export default function FillSbtDetails({
         </form>
       </div>
       <div className="fixed bottom-10 right-5">
-        {true && (
+        {isSuccess && (
           <Alert
             open={open}
             onClose={() => setOpen(false)}
