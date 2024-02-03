@@ -27,7 +27,7 @@ export function ViewModal({
 
   const { data, isRefetching, refetch } = useContractRead({
     address: sbtAddress, // Fix: Prefix sbtAddress with '0x'
-    abi: sbts["EDU"].abi,
+    abi: sbts[sbtSymbol].abi,
     functionName: "verifyCredential",
     args: [tokenId],
     onSuccess: (data: any) => {
