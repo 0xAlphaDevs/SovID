@@ -24,7 +24,7 @@ export default function FillSbtDetails({
 
   const { config } = usePrepareContractWrite({
     address: tokenAddress,
-    abi: sbts[tokenAddress].abi,
+    abi: sbts[tokenName].abi,
     functionName: "issueCredential",
     args: prepareIssueCredentialArgs(formData),
   });
@@ -37,7 +37,7 @@ export default function FillSbtDetails({
   } = useWaitForTransaction({ hash: data?.hash });
 
   function prepareIssueCredentialArgs(formData: any) {
-    const sbtObject = sbts[tokenAddress];
+    const sbtObject = sbts[tokenName];
     let args: string[] = [];
     args[0] = formData["Wallet Address"];
 
@@ -73,14 +73,14 @@ export default function FillSbtDetails({
             <div className="space-y-12">
               <div className="border-b border-gray-900/10 pb-12">
                 <h2 className="text-base font-semibold leading-7 text-gray-900 mt-4">
-                  Credential Information for {sbts[tokenAddress].sbtName}
+                  Credential Information for {sbts[tokenName].sbtName}
                 </h2>
                 <p className="mt-1 text-sm leading-6 text-gray-600">
                   Please make sure you fill all the details correctly.
                 </p>
 
                 <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                  {sbts[tokenAddress].sbtFields.map((field: any) => (
+                  {sbts[tokenName].sbtFields.map((field: any) => (
                     <div className="sm:col-span-6">
                       <label className="block text-sm font-medium leading-6 text-gray-900">
                         {field.title}

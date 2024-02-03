@@ -35,11 +35,9 @@ export default function StepperIssueSbt({
     };
   });
 
-  // let allowedSbtsArray: string[] = allowedSbtsList;
+  let ALLOWED_SBTS = ALL_SBTS;
 
-  // let ALLOWED_SBTS = ALL_SBTS.filter((sbt: Sbt) => {
-  //   return allowedSbtsArray.includes(sbt.sbtAddress);
-  // });
+  console.log("ALLOWED_SBTS", ALLOWED_SBTS);
 
   // React.useEffect(() => {
   //   console.log("rerendered");
@@ -118,7 +116,7 @@ export default function StepperIssueSbt({
             </Typography>
             <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4 w-full">
               {/* Map allowed SBTs for organization 🟡*/}
-              {/* {ALLOWED_SBTS.map((sbt) => (
+              {ALLOWED_SBTS.map((sbt) => (
                 <SbtCard
                   tokenName={sbt.sbtSymbol}
                   tokenAddress={sbt.sbtAddress}
@@ -134,7 +132,7 @@ export default function StepperIssueSbt({
                     setSelectedTokenAddress(sbt.sbtAddress);
                   }}
                 />
-              ))} */}
+              ))}
             </div>
           </div>
         )}
