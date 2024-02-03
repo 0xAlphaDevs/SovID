@@ -12,19 +12,19 @@ import {
 } from "@material-tailwind/react";
 import { useRouter } from "next/navigation";
 
-export function UserForm() {
+export function AdminForm() {
   const [open, setOpen] = React.useState(false);
   const router = useRouter();
   const handleOpen = () => setOpen((cur) => !cur);
   const handleClose = () => setOpen(false);
   const handleSubmit = () => {
-    router.push("/user");
+    router.push("/admin");
   };
 
   return (
     <>
       <Button placeholder="" onClick={handleOpen}>
-        User
+        Admin
       </Button>
       <Dialog
         placeholder=""
@@ -48,23 +48,38 @@ export function UserForm() {
             </Typography>
             <Button
               placeholder=""
-              className="p-2 m-2"
+              className="p-2 m-2 text-white"
               onClick={handleClose}
-              color="white"
+              color="gray"
             >
               X
             </Button>
           </CardHeader>
           <CardBody placeholder="" className="flex flex-col gap-4">
             <Typography placeholder="" className="-mb-2" variant="h6">
-              Your Name
+              Organization Name
             </Typography>
             <Input
               crossOrigin=""
               type="text"
               placeholder="Your Name"
               className="!border !border-gray-300 bg-white text-gray-900 shadow-lg shadow-gray-900/5 ring-4 ring-transparent placeholder:text-gray-500 focus:!border-gray-900 focus:!border-t-gray-900 focus:ring-gray-900/10"
-              label="userName"
+              label="organizationName"
+              labelProps={{
+                className: "hidden",
+              }}
+              containerProps={{ className: "min-w-[100px]" }}
+              required
+            />
+            <Typography placeholder="" className="-mb-2" variant="h6">
+              Organization Type
+            </Typography>
+            <Input
+              crossOrigin=""
+              type="text"
+              placeholder="Your Name"
+              className="!border !border-gray-300 bg-white text-gray-900 shadow-lg shadow-gray-900/5 ring-4 ring-transparent placeholder:text-gray-500 focus:!border-gray-900 focus:!border-t-gray-900 focus:ring-gray-900/10"
+              label="organizationType"
               labelProps={{
                 className: "hidden",
               }}
