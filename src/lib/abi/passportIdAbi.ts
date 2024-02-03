@@ -262,56 +262,6 @@ export const passportIdContractABI = [
   },
   {
     inputs: [],
-    name: "getTokensInWallet",
-    outputs: [
-      {
-        components: [
-          {
-            internalType: "string",
-            name: "passportNumber",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "holderName",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "nationality",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "dateOfBirth",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "gender",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "placeOfIssue",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "expiryDate",
-            type: "string",
-          },
-        ],
-        internalType: "struct PassportID.Credential[]",
-        name: "",
-        type: "tuple[]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
     name: "getVerificationRequestsByOrganization",
     outputs: [
       {

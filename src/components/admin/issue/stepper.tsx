@@ -1,5 +1,6 @@
 "use client";
-import React, { use } from "react";
+import React from "react";
+import { useAccount, useContractRead } from "wagmi";
 import { Stepper, Step, Button, Typography } from "@material-tailwind/react";
 import {
   CogIcon,
@@ -9,6 +10,7 @@ import {
 import SbtCard from "./sbt-card";
 import FillSbtDetails from "./fill-sbt-details";
 import { sbts } from "@/constants/sbt";
+import { authorizedUserTokenContractConfig } from "@/lib/contracts";
 
 interface Sbt {
   sbtName: string;
@@ -24,7 +26,8 @@ export default function StepperIssueSbt({
   tokenName: string | null;
   tokenAddress: string | null;
 }) {
-  // const allowedSbtsList = useRecoilValue(allowedSbtsState);
+  const { address } = useAccount();
+  const [allowedSBTs, setAllowedSBTs] = React.useState([] as Sbt[]);
 
   const ALL_SBTS: Sbt[] = Object.keys(sbts).map((key) => {
     return {
@@ -35,17 +38,21 @@ export default function StepperIssueSbt({
     };
   });
 
-  let ALLOWED_SBTS = ALL_SBTS;
+  let ALLOWED_SBTS = [] as Sbt[];
 
-  console.log("ALLOWED_SBTS", ALLOWED_SBTS);
-
-  // React.useEffect(() => {
-  //   console.log("rerendered");
-  //   console.log(ALLOWED_SBTS);
-  //   ALLOWED_SBTS = ALL_SBTS.filter((sbt: Sbt) => {
-  //     return allowedSbtsArray.includes(sbt.sbtAddress);
-  //   });
-  // }, [allowedSbtsList]);
+  const { data, error, isLoading, isSuccess } = useContractRead({
+    ...authorizedUserTokenContractConfig,
+    functionName: "getVerifiedUserMetadata",
+    args: [address],
+    onSuccess: (data: any) => {
+      console.log("Allowed SBTs", data?.allowedSBTs);
+      let allowedSbtsArray = data?.allowedSBTs;
+      ALLOWED_SBTS = ALL_SBTS.filter((sbt: Sbt) => {
+        return allowedSbtsArray.includes(sbt.sbtAddress);
+      });
+      setAllowedSBTs(ALLOWED_SBTS);
+    },
+  });
 
   let currentStep = 0;
 
@@ -116,7 +123,7 @@ export default function StepperIssueSbt({
             </Typography>
             <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4 w-full">
               {/* Map allowed SBTs for organization 🟡*/}
-              {ALLOWED_SBTS.map((sbt) => (
+              {allowedSBTs.map((sbt) => (
                 <SbtCard
                   tokenName={sbt.sbtSymbol}
                   tokenAddress={sbt.sbtAddress}

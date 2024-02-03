@@ -262,41 +262,6 @@ export const nationalIdContractABI = [
   },
   {
     inputs: [],
-    name: "getTokensInWallet",
-    outputs: [
-      {
-        components: [
-          {
-            internalType: "uint256",
-            name: "id",
-            type: "uint256",
-          },
-          {
-            internalType: "string",
-            name: "holderName",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "gender",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "dateOfBirth",
-            type: "string",
-          },
-        ],
-        internalType: "struct NationalID.Credential[]",
-        name: "",
-        type: "tuple[]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
     name: "getVerificationRequestsByOrganization",
     outputs: [
       {

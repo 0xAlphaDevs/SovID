@@ -262,46 +262,6 @@ export const educationalIdContractABI = [
   },
   {
     inputs: [],
-    name: "getTokensInWallet",
-    outputs: [
-      {
-        components: [
-          {
-            internalType: "string",
-            name: "holderName",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "institution",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "course",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "yearOfPassing",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "grade",
-            type: "string",
-          },
-        ],
-        internalType: "struct EducationalID.Credential[]",
-        name: "",
-        type: "tuple[]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
     name: "getVerificationRequestsByOrganization",
     outputs: [
       {

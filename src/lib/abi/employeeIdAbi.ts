@@ -262,41 +262,6 @@ export const employeeIdContractABI = [
   },
   {
     inputs: [],
-    name: "getTokensInWallet",
-    outputs: [
-      {
-        components: [
-          {
-            internalType: "uint256",
-            name: "id",
-            type: "uint256",
-          },
-          {
-            internalType: "string",
-            name: "employeeName",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "position",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "dateOfJoining",
-            type: "string",
-          },
-        ],
-        internalType: "struct EmployeeID.Credential[]",
-        name: "",
-        type: "tuple[]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
     name: "getVerificationRequestsByOrganization",
     outputs: [
       {

@@ -25,7 +25,6 @@ export function InfoCard() {
   const { address } = useAccount();
   const { data: ensName } = useEnsName({ address });
 
-  const [walletAddress, setWalletAddress] = useState<any>(address);
   const [authToken, setAuthToken] = useState<any>({
     userName: "",
     category: "",
@@ -47,8 +46,8 @@ export function InfoCard() {
   const { data, error, isLoading, isSuccess } = useContractRead({
     ...authorizedUserTokenContractConfig,
     functionName: "getVerifiedUserMetadata",
-    args: [walletAddress],
-    enabled: Boolean(walletAddress),
+    args: [address],
+    enabled: Boolean(address),
     onSuccess: (data) => {
       console.log("Queried Auth Token", data);
       setAuthToken(data);
