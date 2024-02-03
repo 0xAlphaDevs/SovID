@@ -100,6 +100,7 @@ export function InfoTable() {
 
       console.log("ALL SBTS", allWalletSbts);
       setWalletSbts(allWalletSbts);
+      setFilteredRows(allWalletSbts);
     },
   });
 
@@ -107,19 +108,13 @@ export function InfoTable() {
     if (searchTerm === "") {
       setFilteredRows(walletSbts);
     } else {
-      const filtered = walletSbts.filter(
-        (row: { sbtName: string; sbtSymbol: string; tokenId: number }) => {
-          return (
-            row.sbtName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            row.sbtSymbol.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            row.tokenId.toString().includes(searchTerm.toLowerCase())
-          );
-        }
-      );
+      const filtered = walletSbts.filter((row: { sbtName: string }) => {
+        return row.sbtName.toLowerCase().includes(searchTerm.toLowerCase());
+      });
       setFilteredRows(filtered);
       console.log("FILTERED", filtered);
     }
-  }, [searchTerm, walletSbts]);
+  }, [searchTerm]);
 
   function copyAddress(address: string) {
     navigator.clipboard.writeText(address);
@@ -191,7 +186,7 @@ export function InfoTable() {
           <tbody>
             {filteredRows.length == 0 ? (
               <>
-                <div className="justify-center w-full m-4">No data found</div>
+                <div className="w-full m-4">No data found</div>
               </>
             ) : (
               filteredRows.map(

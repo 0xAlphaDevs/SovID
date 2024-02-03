@@ -17,13 +17,14 @@ import {
   Tooltip,
   Chip,
 } from "@material-tailwind/react";
-import { useAccount, useEnsName, useContractRead } from "wagmi";
-import { useState, useEffect, use } from "react";
+import { useAccount, useContractRead } from "wagmi";
+import { useState, useEffect } from "react";
 import { authorizedUserTokenContractConfig } from "@/lib/contracts";
+import { useRouter } from "next/navigation";
 
 export function InfoCard() {
   const { address } = useAccount();
-  const { data: ensName } = useEnsName({ address });
+  const router = useRouter();
 
   const [authToken, setAuthToken] = useState<any>({
     userName: "",
@@ -43,14 +44,19 @@ export function InfoCard() {
     }, 2000);
   }
 
-  const { data, error, isLoading, isSuccess } = useContractRead({
+  const { error, isLoading, isSuccess } = useContractRead({
     ...authorizedUserTokenContractConfig,
     functionName: "getVerifiedUserMetadata",
     args: [address],
-    enabled: Boolean(address),
-    onSuccess: (data) => {
+    onSuccess: (data: any) => {
       console.log("Queried Auth Token", data);
+      if (data?.userName === "") {
+        router.push("/");
+      }
       setAuthToken(data);
+    },
+    onError: (error) => {
+      console.error("Error querying Auth Token", error);
     },
   });
 
@@ -84,9 +90,7 @@ export function InfoCard() {
           className="font-normal uppercase flex gap-2"
         >
           Wallet Address :{" "}
-          <span className="font-semibold text-blue-400">
-            {ensName ?? address}
-          </span>{" "}
+          <span className="font-semibold text-blue-400">{address}</span>{" "}
           {/* Here is copy icon 🟢 */}
           <Tooltip content={tooltipContent}>
             <span

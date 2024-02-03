@@ -12,12 +12,11 @@ import {
   Typography,
   Tooltip,
 } from "@material-tailwind/react";
-import { useAccount, useEnsName } from "wagmi";
+import { useAccount } from "wagmi";
 import { useState } from "react";
 
 export function InfoCard() {
   const { address } = useAccount();
-  const { data: ensName } = useEnsName({ address });
 
   // state 🟢
   const [tooltipContent, setTooltipContent] = useState("Copy Wallet Address");
@@ -60,9 +59,7 @@ export function InfoCard() {
           className="font-normal uppercase"
         >
           Wallet Address :{" "}
-          <span className="font-semibold text-blue-400">
-            {ensName ?? address}
-          </span>{" "}
+          <span className="font-semibold text-blue-400">{address}</span>{" "}
           {/* Here is copy icon 🟢 */}
           <Tooltip content={tooltipContent}>
             <span

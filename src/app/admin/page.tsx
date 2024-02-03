@@ -18,15 +18,6 @@ const Admin = () => {
   const { address, isDisconnected } = useAccount();
   const router = useRouter();
 
-  const [walletAddress, setWalletAddress] = React.useState<any>(address);
-
-  const { data, error, isLoading, isSuccess } = useContractRead({
-    ...authorizedUserTokenContractConfig,
-    functionName: "verifyCredential",
-    args: [walletAddress],
-    enabled: Boolean(walletAddress),
-  });
-
   React.useEffect(() => {
     if (address) {
       router.push("/admin/dashboard");

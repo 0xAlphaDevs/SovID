@@ -121,24 +121,6 @@ export const authorizedUserTokenABI = [
     inputs: [
       {
         internalType: "address",
-        name: "issuer",
-        type: "address",
-      },
-    ],
-    name: "addIssuer",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "organizationWallet",
-        type: "address",
-      },
-      {
-        internalType: "address",
         name: "newSBT",
         type: "address",
       },
@@ -208,7 +190,7 @@ export const authorizedUserTokenABI = [
     inputs: [
       {
         internalType: "address",
-        name: "credentialHolder",
+        name: "walletAddress",
         type: "address",
       },
     ],
@@ -368,19 +350,6 @@ export const authorizedUserTokenABI = [
       },
     ],
     stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "issuer",
-        type: "address",
-      },
-    ],
-    name: "removeIssuer",
-    outputs: [],
-    stateMutability: "nonpayable",
     type: "function",
   },
   {

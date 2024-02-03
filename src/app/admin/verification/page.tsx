@@ -12,22 +12,71 @@ import {
   Typography,
   Input,
   Alert,
+  Select,
+  Option,
 } from "@material-tailwind/react";
+import { sbts } from "@/constants/sbt";
 import { DefaultSpinner } from "@/components/admin/spinner";
 import VerificationRequestsTable from "@/components/admin/verification/verification-requests-table";
 import SuccessIcon from "@/components/icons/successIcon";
 import ErrorIcon from "@/components/icons/errorIcon";
+import {
+  useAccount,
+  useContractWrite,
+  usePrepareContractWrite,
+  useWaitForTransaction,
+} from "wagmi";
 
 const Verification = () => {
+  const { address } = useAccount();
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen((cur) => !cur);
-  const [loading, setLoading] = React.useState<Boolean>();
-  const [transactionStatus, setTransactionStatus] = React.useState<String>("");
-  const [formData, setFormData] = React.useState({} as any);
+  const [formData, setFormData] = React.useState({
+    walletAddress: "",
+    sbtSymbol: "",
+    tokenId: "",
+  } as any);
+
+  const { config } = usePrepareContractWrite({
+    address: sbts.EDU.address,
+    abi: sbts.EDU.abi,
+    functionName: "requestForVerification",
+    args: [address, "0"],
+  });
+
+  const { write, data, isLoading, isError } = useContractWrite(config);
+
+  const {
+    data: receipt,
+    isLoading: isPending,
+    isSuccess,
+  } = useWaitForTransaction({ hash: data?.hash });
+
+  function prepareRequestVerificationArgs(formData: any) {
+    let args: string[] = [];
+    args[0] = formData.walletAddress;
+    args[1] = formData.tokenId;
+
+    return args;
+  }
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setLoading(true);
+    if (
+      formData["walletAddress"] == undefined ||
+      formData["sbtSymbol"] == undefined ||
+      formData["tokenId"] == undefined
+    ) {
+      alert("Please fill all the fields");
+      return;
+    }
+    console.log(formData);
+    write?.();
+    setFormData({
+      walletAddress: "",
+      sbtSymbol: "",
+      tokenId: "",
+    } as any);
   }
 
   return (
@@ -46,7 +95,7 @@ const Verification = () => {
               handler={handleOpen}
               className="bg-transparent shadow-none"
             >
-              {loading ? (
+              {isLoading ? (
                 <div className="flex justify-center mt-24">
                   <DefaultSpinner />
                 </div>
@@ -71,39 +120,42 @@ const Verification = () => {
                         className="focus:ring-0 "
                         size="lg"
                         label="SBT Holder Wallet Address"
-                        value={formData["SBT Holder Wallet Address"]}
+                        value={formData.walletAddress}
                         onChange={(e) => {
                           setFormData({
                             ...formData,
-                            ["SBT Holder Wallet Address"]: e.target.value,
+                            walletAddress: e.target.value,
                           });
                         }}
                         crossOrigin={undefined}
                         required={true}
                       />
-                      <Input
-                        className="focus:ring-0 "
-                        size="lg"
-                        label="SBT Address"
-                        value={formData["SBT Address"]}
-                        onChange={(e) => {
+                      <Select
+                        onChange={(value) => {
                           setFormData({
                             ...formData,
-                            ["SBT Address"]: e.target.value,
+                            sbtSymbol: value,
                           });
                         }}
-                        required={true}
-                        crossOrigin={undefined}
-                      />
+                        label="Select SBT"
+                        placeholder={formData.sbtSymbol}
+                        value={formData.sbtSymbol}
+                      >
+                        <Option value="EDU">Educational ID</Option>
+                        <Option value="EMP">Employee ID</Option>
+                        <Option value="SSN">National ID</Option>
+                        <Option value="PID">Passport ID</Option>
+                      </Select>
                       <Input
+                        type="number"
                         className="focus:ring-0 "
                         size="lg"
                         label="Document/Token ID"
-                        value={formData["Document/Token ID"]}
+                        value={formData.tokenId}
                         onChange={(e) => {
                           setFormData({
                             ...formData,
-                            ["Document/Token ID"]: e.target.value,
+                            tokenId: e.target.value,
                           });
                         }}
                         required={true}
@@ -125,12 +177,12 @@ const Verification = () => {
             </Dialog>
           </div>
           <div className="absolute top-10 right-5">
-            {transactionStatus == "success" && (
+            {isSuccess && (
               <Alert icon={<SuccessIcon />} color="green">
                 Transaction Succesful
               </Alert>
             )}
-            {transactionStatus == "error" && (
+            {isError && (
               <Alert icon={<ErrorIcon />} color="red">
                 At this moment he knew he fucked up!
               </Alert>
