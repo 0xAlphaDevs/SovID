@@ -1,6 +1,7 @@
 "use client";
 import {
   CheckBadgeIcon,
+  CheckCircleIcon,
   ClipboardIcon,
   DocumentDuplicateIcon,
   IdentificationIcon,
@@ -93,7 +94,11 @@ export function InfoCard() {
               onClick={copyAddress}
               className="inline-flex  h-[18px] cursor-pointer"
             >
-              <DocumentDuplicateIcon />
+              {tooltipContent === "Address Copied!" ? (
+                <CheckCircleIcon />
+              ) : (
+                <DocumentDuplicateIcon />
+              )}
             </span>
           </Tooltip>
           {/* <Chip size="lg" color="teal" value={authToken.category} /> */}

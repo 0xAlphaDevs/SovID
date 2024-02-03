@@ -1,5 +1,6 @@
 "use client";
 import {
+  CheckCircleIcon,
   DocumentDuplicateIcon,
   IdentificationIcon,
 } from "@heroicons/react/24/outline";
@@ -68,7 +69,11 @@ export function InfoCard() {
               onClick={copyAddress}
               className="inline-flex  h-[18px] cursor-pointer"
             >
-              <DocumentDuplicateIcon />
+              {tooltipContent === "Address Copied!" ? (
+                <CheckCircleIcon />
+              ) : (
+                <DocumentDuplicateIcon />
+              )}
             </span>
           </Tooltip>
         </Typography>

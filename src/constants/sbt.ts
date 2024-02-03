@@ -1,9 +1,7 @@
-import {
-  educationalIdContractABI,
-  passportIdContractABI,
-  employeeIdContractABI,
-  nationalIdContractABI,
-} from "@/lib/abi";
+import { educationalIdContractABI } from "@/lib/abi/educationalIdAbi";
+import { employeeIdContractABI } from "@/lib/abi/employeeIdAbi";
+import { nationalIdContractABI } from "@/lib/abi/nationalIdAbi";
+import { passportIdContractABI } from "@/lib/abi/passportIdAbi";
 
 export const sbts: { [key: string]: any } = {
   AUTH: {

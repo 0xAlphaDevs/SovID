@@ -1,5 +1,6 @@
 import { erc20ABI } from "wagmi";
-import { wagmiABI, authorizedUserTokenABI } from "./abi";
+import { wagmiABI } from "./abi/wagmiAbi";
+import { authorizedUserTokenABI } from "./abi/authorizedUserTokenAbi";
 
 export const wagmiContractConfig = {
   address: "0xFBA3912Ca04dd458c843e2EE08967fC04f3579c2",
