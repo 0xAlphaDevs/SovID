@@ -62,7 +62,7 @@ export default function FillSbtDetails({
   };
 
   return (
-    <div>
+    <div className="w-96">
       <form onSubmit={issueCredential}>
         {isLoading ? (
           <div className="mt-8">
@@ -147,14 +147,14 @@ export default function FillSbtDetails({
         )}
       </form>
       <div className="absolute top-10 right-5">
-        {isSuccess && (
+        {true && (
           <Alert
             open={open}
             onClose={() => setOpen(false)}
             icon={<SuccessIcon />}
             color="green"
           >
-            Request Succesful
+            Credential Issued Successfully
           </Alert>
         )}
 
