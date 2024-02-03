@@ -19,17 +19,6 @@ import { useContractReads } from "wagmi";
 
 const TABLE_HEAD = ["SBT Name", "SBT Symbol", "Token ID", ""];
 
-const SBTS = Object.keys(sbts).map((key) => {
-  return {
-    sbtName: sbts[key].sbtName,
-    sbtSymbol: sbts[key].sbtSymbol,
-    sbtAddress: sbts[key].sbtAddress,
-    tokenId: sbts[key].tokenId,
-    abi: sbts[key].abi,
-    active: sbts[key].active,
-  };
-});
-
 export function InfoTable() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredRows, setFilteredRows] = useState([]);
@@ -39,74 +28,67 @@ export function InfoTable() {
   const { data, isSuccess, isLoading } = useContractReads({
     contracts: [
       {
-        address: SBTS[0].sbtAddress,
-        abi: SBTS[0].abi,
-        functionName: "getTokensInWallet",
+        address: sbts.edu.sbtAddress,
+        abi: sbts.edu.abi,
+        functionName: "verifyCredential",
+        args: [0],
       },
-      {
-        address: SBTS[1].sbtAddress,
-        abi: SBTS[1].abi,
-        functionName: "getTokensInWallet",
-      },
-      {
-        address: SBTS[2].sbtAddress,
-        abi: SBTS[2].abi,
-        functionName: "getTokensInWallet",
-      },
-      {
-        address: SBTS[3].sbtAddress,
-        abi: SBTS[3].abi,
-        functionName: "getTokensInWallet",
-      },
+      // {
+      //   address: SBTS[1].sbtAddress,
+      //   abi: SBTS[1].abi,
+      //   functionName: "verifyCredential",
+      // },
+      // {
+      //   address: SBTS[2].sbtAddress,
+      //   abi: SBTS[2].abi,
+      //   functionName: "verifyCredential",
+      // },
+      // {
+      //   address: SBTS[3].sbtAddress,
+      //   abi: SBTS[3].abi,
+      //   functionName: "verifyCredential",
+      // },
     ],
     onSuccess: (data: any) => {
-      console.log("Queried SBTS");
+      console.log("Queried SBTS", data);
 
       let allWalletSbts: any = [];
 
-      let educationIdSbts = data[0].result;
-      let employeeIdSbts = data[1].result;
-      let nationalIdSbts = data[2].result;
-      let passportIdSbts = data[3].result;
+      let educationIdSbts = data;
+      // let employeeIdSbts = data[1].result;
+      // let nationalIdSbts = data[2].result;
+      // let passportIdSbts = data[3].result;
 
-      educationIdSbts.forEach((element: any) => {
-        allWalletSbts.push({
-          sbtName: SBTS[0].sbtName,
-          sbtSymbol: SBTS[0].sbtSymbol,
-          sbtAddress: SBTS[0].sbtAddress,
-          tokenId: Number(element),
-        });
+      educationIdSbts.forEach((sbt: any) => {
+        allWalletSbts.push(sbt.result);
       });
 
-      employeeIdSbts.forEach((element: any) => {
-        allWalletSbts.push({
-          sbtName: SBTS[1].sbtName,
-          sbtSymbol: SBTS[1].sbtSymbol,
-          sbtAddress: SBTS[1].sbtAddress,
-          tokenId: Number(element),
-        });
-      });
+      // employeeIdSbts.forEach((element: any) => {
+      //   allWalletSbts.push({
+      //     sbtName: SBTS[1].sbtName,
+      //     sbtSymbol: SBTS[1].sbtSymbol,
+      //     sbtAddress: SBTS[1].sbtAddress,
+      //   });
+      // });
 
-      nationalIdSbts.forEach((element: any) => {
-        allWalletSbts.push({
-          sbtName: SBTS[2].sbtName,
-          sbtSymbol: SBTS[2].sbtSymbol,
-          sbtAddress: SBTS[2].sbtAddress,
-          tokenId: Number(element),
-        });
-      });
+      // nationalIdSbts.forEach((element: any) => {
+      //   allWalletSbts.push({
+      //     sbtName: SBTS[2].sbtName,
+      //     sbtSymbol: SBTS[2].sbtSymbol,
+      //     sbtAddress: SBTS[2].sbtAddress,
+      //   });
+      // });
 
-      passportIdSbts.forEach((element: any) => {
-        allWalletSbts.push({
-          sbtName: SBTS[3].sbtName,
-          sbtSymbol: SBTS[3].sbtSymbol,
-          sbtAddress: SBTS[3].sbtAddress,
-          tokenId: Number(element),
-        });
-      });
+      // passportIdSbts.forEach((element: any) => {
+      //   allWalletSbts.push({
+      //     sbtName: SBTS[3].sbtName,
+      //     sbtSymbol: SBTS[3].sbtSymbol,
+      //     sbtAddress: SBTS[3].sbtAddress,
+      //   });
+      // });
 
-      setWalletSbts(allWalletSbts);
       console.log("ALL SBTS", allWalletSbts);
+      setWalletSbts(allWalletSbts);
     },
   });
 
@@ -203,7 +185,7 @@ export function InfoTable() {
             ) : (
               filteredRows.map(
                 ({ sbtName, sbtSymbol, sbtAddress, tokenId }, index) => {
-                  const isLast = index === SBTS.length - 1;
+                  const isLast = index === walletSbts.length - 1;
                   const classes = isLast
                     ? "p-4"
                     : "p-4 border-b border-blue-gray-50";

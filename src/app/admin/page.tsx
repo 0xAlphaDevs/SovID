@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import AdminNavbar from "@/components/admin/navbar";
 import { useContractRead } from "wagmi";
-import { authorizationTokenContractConfig } from "@/lib/contracts";
+import { authorizedUserTokenContractConfig } from "@/lib/contracts";
 import { useAccount } from "wagmi";
 import { useRouter } from "next/navigation";
 import { ConnectKitButton } from "connectkit";
@@ -21,7 +21,7 @@ const Admin = () => {
   const [walletAddress, setWalletAddress] = React.useState<any>(address);
 
   const { data, error, isLoading, isSuccess } = useContractRead({
-    ...authorizationTokenContractConfig,
+    ...authorizedUserTokenContractConfig,
     functionName: "verifyCredential",
     args: [walletAddress],
     enabled: Boolean(walletAddress),

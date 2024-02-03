@@ -1013,6 +1013,46 @@ export const educationalIdContractABI = [
   },
   {
     inputs: [],
+    name: "getTokensInWallet",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "string",
+            name: "holderName",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "institution",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "course",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "yearOfPassing",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "grade",
+            type: "string",
+          },
+        ],
+        internalType: "struct EducationalID.Credential[]",
+        name: "",
+        type: "tuple[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "getVerificationRequestsByOrganization",
     outputs: [
       {
@@ -1704,6 +1744,56 @@ export const passportIdContractABI = [
         internalType: "uint256[]",
         name: "",
         type: "uint256[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getTokensInWallet",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "string",
+            name: "passportNumber",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "holderName",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "nationality",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "dateOfBirth",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "gender",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "placeOfIssue",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "expiryDate",
+            type: "string",
+          },
+        ],
+        internalType: "struct PassportID.Credential[]",
+        name: "",
+        type: "tuple[]",
       },
     ],
     stateMutability: "view",
@@ -2429,6 +2519,41 @@ export const employeeIdContractABI = [
   },
   {
     inputs: [],
+    name: "getTokensInWallet",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "id",
+            type: "uint256",
+          },
+          {
+            internalType: "string",
+            name: "employeeName",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "position",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "dateOfJoining",
+            type: "string",
+          },
+        ],
+        internalType: "struct EmployeeID.Credential[]",
+        name: "",
+        type: "tuple[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "getVerificationRequestsByOrganization",
     outputs: [
       {
@@ -3110,6 +3235,41 @@ export const nationalIdContractABI = [
         internalType: "uint256[]",
         name: "",
         type: "uint256[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getTokensInWallet",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "id",
+            type: "uint256",
+          },
+          {
+            internalType: "string",
+            name: "holderName",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "gender",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "dateOfBirth",
+            type: "string",
+          },
+        ],
+        internalType: "struct NationalID.Credential[]",
+        name: "",
+        type: "tuple[]",
       },
     ],
     stateMutability: "view",

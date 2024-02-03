@@ -11,7 +11,7 @@ import { sbts } from "@/constants/sbt";
 
 interface ViewModalProps {
   sbtName: string;
-  sbtAddress: string;
+  sbtAddress: `0x${string}`;
   tokenId: string;
 }
 
@@ -19,7 +19,7 @@ export function ViewModal({ sbtName, sbtAddress, tokenId }: ViewModalProps) {
   const [open, setOpen] = React.useState(false);
 
   const { data, isRefetching, refetch } = useContractRead({
-    address: sbts[sbtAddress].sbtAddress,
+    address: sbtAddress, // Fix: Prefix sbtAddress with '0x'
     abi: sbts[sbtAddress].abi,
     functionName: "verifyCredential",
     args: [tokenId],
