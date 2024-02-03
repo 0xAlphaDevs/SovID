@@ -1,4 +1,6 @@
 "use client";
+import { AdminForm } from "@/components/admin-form";
+import { UserForm } from "@/components/user-form";
 import {
   Card,
   CardHeader,
@@ -17,15 +19,11 @@ export default function Homepage() {
         <p className="flex justify-center">Are you a user or Admin?</p>
         <CardBody placeholder="">
           <div className="flex justify-around">
-            <Link href="/user">
-              <div className="p-4 border border-black rounded-lg shadow-lg inline-block cursor-pointer">
-                User
-              </div>
+            <Link href="">
+              <UserForm />
             </Link>
-            <Link href="/admin">
-              <div className="p-4 border border-black rounded-lg shadow-lg inline-block cursor-pointer">
-                Admin
-              </div>
+            <Link href="">
+              <AdminForm />
             </Link>
           </div>
         </CardBody>
