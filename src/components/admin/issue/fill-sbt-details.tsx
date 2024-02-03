@@ -63,10 +63,10 @@ export default function FillSbtDetails({
 
   return (
     <>
-      <div className="w-96">
-        <form onSubmit={issueCredential}>
+      <div className="w-full">
+        <form onSubmit={issueCredential} className="lg:px-48 px-4">
           {isLoading ? (
-            <div className="mt-8">
+            <div className="mt-8 flex justify-center">
               <DefaultSpinner />
             </div>
           ) : (
