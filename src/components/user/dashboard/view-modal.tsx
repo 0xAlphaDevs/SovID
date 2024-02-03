@@ -20,7 +20,7 @@ export function ViewModal({ sbtName, sbtAddress, tokenId }: ViewModalProps) {
 
   const { data, isRefetching, refetch } = useContractRead({
     address: sbtAddress, // Fix: Prefix sbtAddress with '0x'
-    abi: sbts[sbtAddress].abi,
+    abi: sbts.edu.abi,
     functionName: "verifyCredential",
     args: [tokenId],
     onSuccess: (data: any) => {
@@ -52,7 +52,7 @@ export function ViewModal({ sbtName, sbtAddress, tokenId }: ViewModalProps) {
         <DialogBody placeholder="">
           <div className="bg-green-200 w-96 p-8 rounded-lg shadow-xl max-w-sm mx-auto border deep-purple-700">
             <ul>
-              {Object.keys(data).map((field: string) => (
+              {data?.Object.keys(data).map((field: string) => (
                 <li key={field}>
                   <strong>
                     {field} : {String(data?.[field])}
