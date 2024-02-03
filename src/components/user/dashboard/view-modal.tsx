@@ -23,6 +23,7 @@ export function ViewModal({
   tokenId,
 }: ViewModalProps) {
   const [open, setOpen] = React.useState(false);
+  const [sbtData, setSbtData] = React.useState<any>({});
 
   const { data, isRefetching, refetch } = useContractRead({
     address: sbtAddress, // Fix: Prefix sbtAddress with '0x'
@@ -31,6 +32,7 @@ export function ViewModal({
     args: [tokenId],
     onSuccess: (data: any) => {
       console.log(data);
+      setSbtData(data);
     },
   });
 
@@ -58,14 +60,14 @@ export function ViewModal({
         <DialogBody placeholder="">
           <div className="bg-green-200 w-96 p-8 rounded-lg shadow-xl max-w-sm mx-auto border deep-purple-700">
             <ul>
-              {/* {data?.Object.keys(data).map((field: string) => (
-                <li key={field}>
+              {Object.keys(sbtData).map((field: string) => (
+                <li key={field} className="text-black">
                   <strong>
-                    {field} : {String(data?.[field])}
+                    <span className="">{field}</span> :{" "}
+                    {String(sbtData?.[field])}
                   </strong>{" "}
-                
                 </li>
-              ))} */}
+              ))}
             </ul>
           </div>
         </DialogBody>
