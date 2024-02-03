@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Dialog,
@@ -8,17 +8,14 @@ import {
   CardFooter,
   Typography,
   Input,
-  Checkbox,
   Alert,
 } from "@material-tailwind/react";
 import { useRouter } from "next/navigation";
 import {
-  useAccount,
   useContractWrite,
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
-import { useState, useEffect } from "react";
 import { authorizedUserTokenABI } from "@/lib/abi/authorizedUserTokenAbi";
 import { DefaultSpinner } from "./admin/spinner";
 import SuccessIcon from "@/components/icons/successIcon";
@@ -91,7 +88,6 @@ export function UserForm() {
               X
             </Button>
           </CardHeader>
-
           <form onSubmit={handleSubmit}>
             {isLoading ? (
               <div className="mt-8">
