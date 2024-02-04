@@ -24,7 +24,7 @@ import {
   Tooltip,
 } from "@material-tailwind/react";
 import { sbts } from "@/constants/sbt";
-import { useContractReads } from "wagmi";
+import { useContractReads, useContractRead, useAccount } from "wagmi";
 import { ViewModal } from "@/components/user/dashboard/view-modal";
 
 const TABLE_HEAD = ["Credential Holder", "Requested Credential", "Status", ""];
@@ -45,6 +45,7 @@ export default function VerificationRequestsTable({
   requestVerification,
 }: any) {
   const router = useRouter();
+  const { address } = useAccount();
   const [searchTerm, setSearchTerm] = useState("");
   const [verificationRequests, setVerificationRequests] = useState<
     VerificationRequest[]
@@ -63,99 +64,114 @@ export default function VerificationRequestsTable({
     }
   }, [searchTerm]);
 
-  const { data, isSuccess, isLoading } = useContractReads({
-    contracts: [
-      {
-        address: sbts.EDU.sbtAddress,
-        abi: sbts.EDU.abi,
-        functionName: "getVerificationRequestsByOrganization",
-        args: [],
-      },
-      {
-        address: sbts.EMP.sbtAddress,
-        abi: sbts.EMP.abi,
-        functionName: "getVerificationRequestsByOrganization",
-        args: [],
-      },
-      {
-        address: sbts.SSN.sbtAddress,
-        abi: sbts.SSN.abi,
-        functionName: "getVerificationRequestsByOrganization",
-        args: [],
-      },
-      {
-        address: sbts.PID.sbtAddress,
-        abi: sbts.PID.abi,
-        functionName: "getVerificationRequestsByOrganization",
-        args: [],
-      },
-    ],
+  const {} = useContractRead({
+    address: sbts.EMP.sbtAddress,
+    abi: sbts.EMP.abi,
+    functionName: "getVerificationRequestsByOrganization",
+    args: [],
+    account: address,
     onSuccess: (data: any) => {
-      console.log("verification Requests", data);
-
-      let allSentRequests: any = [];
-
-      let educationIdRequests = data[0].result;
-      let employeeIdRequests = data[1].result;
-      let nationalIdRequests = data[2].result;
-      let passportIdRequests = data[3].result;
-
-      educationIdRequests.forEach((request: any) => {
-        allSentRequests.push({
-          img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-3.jpg",
-          credentialHolder: request.credentialHolder,
-          sbtName: request.sbtName,
-          sbtSymbol: request.sbtSymbol,
-          tokenId: request.tokenId,
-          sbtAddress: request.sbtAddress,
-          online: true,
-          status: request.status,
-        });
-      });
-
-      employeeIdRequests.forEach((request: any) => {
-        allSentRequests.push({
-          img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-2.jpg",
-          credentialHolder: request.credentialHolder,
-          sbtName: request.sbtName,
-          sbtSymbol: request.sbtSymbol,
-          tokenId: request.tokenId,
-          sbtAddress: request.sbtAddress,
-          online: false,
-          status: request.status,
-        });
-      });
-
-      nationalIdRequests.forEach((request: any) => {
-        allSentRequests.push({
-          img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-1.jpg",
-          credentialHolder: request.credentialHolder,
-          sbtName: request.sbtName,
-          sbtSymbol: request.sbtSymbol,
-          tokenId: request.tokenId,
-          sbtAddress: request.sbtAddress,
-          online: false,
-          status: request.status,
-        });
-      });
-
-      passportIdRequests.forEach((request: any) => {
-        allSentRequests.push({
-          img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-1.jpg",
-          credentialHolder: request.credentialHolder,
-          sbtName: request.sbtName,
-          sbtSymbol: request.sbtSymbol,
-          tokenId: request.tokenId,
-          sbtAddress: request.sbtAddress,
-          online: false,
-          status: request.status,
-        });
-      });
-
-      setVerificationRequests(allSentRequests);
-      setFilteredRows(allSentRequests);
+      console.log("Verification requests data", data);
+    },
+    onError: (error) => {
+      console.error("Error querying Auth Token", error);
     },
   });
+
+  // const { data, isSuccess, isLoading } = useContractReads({
+  //   contracts: [
+  //     {
+  //       address: sbts.EDU.sbtAddress,
+  //       abi: sbts.EDU.abi,
+  //       functionName: "getVerificationRequestsByOrganization",
+  //       args: [],
+  //     },
+  //     {
+  //       address: sbts.EMP.sbtAddress,
+  //       abi: sbts.EMP.abi,
+  //       functionName: "getVerificationRequestsByOrganization",
+  //       args: [],
+  //     },
+  //     {
+  //       address: sbts.SSN.sbtAddress,
+  //       abi: sbts.SSN.abi,
+  //       functionName: "getVerificationRequestsByOrganization",
+  //       args: [],
+  //     },
+  //     {
+  //       address: sbts.PID.sbtAddress,
+  //       abi: sbts.PID.abi,
+  //       functionName: "getVerificationRequestsByOrganization",
+  //       args: [],
+  //     },
+  //   ],
+
+  //   onSuccess: (data: any) => {
+  //     console.log("verification Requests", data);
+
+  //     let allSentRequests: any = [];
+
+  //     let educationIdRequests = data[0].result;
+  //     let employeeIdRequests = data[1].result;
+  //     let nationalIdRequests = data[2].result;
+  //     let passportIdRequests = data[3].result;
+
+  //     educationIdRequests.forEach((request: any) => {
+  //       allSentRequests.push({
+  //         img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-3.jpg",
+  //         credentialHolder: request.credentialHolder,
+  //         sbtName: request.sbtName,
+  //         sbtSymbol: request.sbtSymbol,
+  //         tokenId: request.tokenId,
+  //         sbtAddress: request.sbtAddress,
+  //         online: true,
+  //         status: request.status,
+  //       });
+  //     });
+
+  //     employeeIdRequests.forEach((request: any) => {
+  //       allSentRequests.push({
+  //         img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-2.jpg",
+  //         credentialHolder: request.credentialHolder,
+  //         sbtName: request.sbtName,
+  //         sbtSymbol: request.sbtSymbol,
+  //         tokenId: request.tokenId,
+  //         sbtAddress: request.sbtAddress,
+  //         online: false,
+  //         status: request.status,
+  //       });
+  //     });
+
+  //     nationalIdRequests.forEach((request: any) => {
+  //       allSentRequests.push({
+  //         img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-1.jpg",
+  //         credentialHolder: request.credentialHolder,
+  //         sbtName: request.sbtName,
+  //         sbtSymbol: request.sbtSymbol,
+  //         tokenId: request.tokenId,
+  //         sbtAddress: request.sbtAddress,
+  //         online: false,
+  //         status: request.status,
+  //       });
+  //     });
+
+  //     passportIdRequests.forEach((request: any) => {
+  //       allSentRequests.push({
+  //         img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-1.jpg",
+  //         credentialHolder: request.credentialHolder,
+  //         sbtName: request.sbtName,
+  //         sbtSymbol: request.sbtSymbol,
+  //         tokenId: request.tokenId,
+  //         sbtAddress: request.sbtAddress,
+  //         online: false,
+  //         status: request.status,
+  //       });
+  //     });
+
+  //     setVerificationRequests(allSentRequests);
+  //     setFilteredRows(allSentRequests);
+  //   },
+  // });
 
   const handleClick = () => {
     // open modal and show

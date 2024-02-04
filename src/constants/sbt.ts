@@ -8,7 +8,7 @@ export const sbts: { [key: string]: any } = {
   AUTH: {
     sbtSymbol: "AUTH",
     sbtName: "AuthorizedUser Token",
-    sbtAddress: "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+    sbtAddress: "0x6FB9EB6826B0978510E6d2F7623c3bC9A3dC9627",
     sbtFields: [
       { title: "User Name", type: "string" },
       { title: "Category", type: "string" },
@@ -20,7 +20,7 @@ export const sbts: { [key: string]: any } = {
   EDU: {
     sbtSymbol: "EDU",
     sbtName: "Educational ID",
-    sbtAddress: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+    sbtAddress: "0x3DaA9b9f3Ba4A5828473075CE68C704FEC124E73",
     sbtFields: [
       { title: "Holder Name", type: "string" },
       { title: "Institution", type: "string" },
@@ -34,7 +34,7 @@ export const sbts: { [key: string]: any } = {
   EMP: {
     sbtSymbol: "EMP",
     sbtName: "Employee ID",
-    sbtAddress: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+    sbtAddress: "0x456A103F7B5b8A5401a99eF244029b8C67c2BE78",
     sbtFields: [
       { title: "ID", type: "number" },
       { title: "Employee Name", type: "string" },
@@ -47,7 +47,7 @@ export const sbts: { [key: string]: any } = {
   SSN: {
     sbtSymbol: "SSN",
     sbtName: "National ID",
-    sbtAddress: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+    sbtAddress: "0x4612869797A1F8Ec40d5fC12FE17519674dAcf30",
     sbtFields: [
       { title: "ID", type: "number" },
       { title: "Holder Name", type: "string" },
@@ -60,7 +60,7 @@ export const sbts: { [key: string]: any } = {
   PID: {
     sbtSymbol: "PID",
     sbtName: "Passport ID",
-    sbtAddress: "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+    sbtAddress: "0x8dc7202c27De1d423AE8011F898Ca172AF28B762",
     sbtFields: [
       { title: "Passport Number", type: "string" },
       { title: "Holder Name", type: "string" },
