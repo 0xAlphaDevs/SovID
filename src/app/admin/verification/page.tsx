@@ -23,10 +23,12 @@ import ErrorIcon from "@/components/icons/errorIcon";
 import {
   useAccount,
   useContractWrite,
-  usePrepareContractWrite,
+  useContractRead,
   useWaitForTransaction,
 } from "wagmi";
 import CreateVerificationRequest from "@/components/admin/verification/create-verification-request";
+import { authorizedUserTokenContractConfig } from "@/lib/contracts";
+import { useRouter } from "next/navigation";
 
 const Verification = () => {
   const { address } = useAccount();
@@ -37,6 +39,23 @@ const Verification = () => {
     sbtSymbol: "",
     tokenId: "",
   } as any);
+
+  const router = useRouter();
+
+  const {} = useContractRead({
+    ...authorizedUserTokenContractConfig,
+    functionName: "getVerifiedUserMetadata",
+    args: [address],
+    onSuccess: (data: any) => {
+      console.log("Queried Auth Token", data);
+      if (data?.userName === "" || data?.category === "individual") {
+        router.push("/");
+      }
+    },
+    onError: (error) => {
+      console.error("Error querying Auth Token", error);
+    },
+  });
 
   const { write, data, isLoading, isError } = useContractWrite({
     address: sbts.EDU.address,

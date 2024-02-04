@@ -53,7 +53,10 @@ const User = () => {
     <>
       <HomeNavbar />
       <div className="w-full">
-        <form onSubmit={mintDefaultAuthSbtForTesting} className="lg:px-48 px-4">
+        <form
+          onSubmit={mintDefaultAuthSbtForTesting}
+          className="lg:px-48 px-4 w-[80%] flex flex-col justify-center items-center mx-auto mt-20"
+        >
           {isLoading ? (
             <div className="mt-8 flex justify-center">
               <DefaultSpinner />
@@ -62,10 +65,10 @@ const User = () => {
             <>
               <div className="space-y-12">
                 <div className="border-b border-gray-900/10 pb-12">
-                  <h2 className="text-base font-semibold leading-7 text-gray-900 mt-4">
-                    Register to SovID User
+                  <h2 className="text-lg text-center font-semibold leading-7 text-gray-900 mt-4">
+                    Register as User
                   </h2>
-                  <p className="mt-1 text-sm leading-6 text-gray-600">
+                  <p className="mt-1 text-center text-sm leading-6 text-gray-600">
                     Please make sure you fill all the details correctly.
                   </p>
                   <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">

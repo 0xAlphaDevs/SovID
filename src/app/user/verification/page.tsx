@@ -1,9 +1,31 @@
-import React from "react";
+"use client";
+import React, { use } from "react";
 import { Connected } from "@/components/connected";
 import UserNavbar from "@/components/user/navbar";
 import VerificationTable from "@/components/user/verification/verification-table";
+import { useAccount } from "wagmi";
+import { useContractRead } from "wagmi";
+import { authorizedUserTokenContractConfig } from "@/lib/contracts";
+import { useRouter } from "next/navigation";
 
 const Verification = () => {
+  const { address } = useAccount();
+  const router = useRouter();
+
+  const { error, isLoading, isSuccess } = useContractRead({
+    ...authorizedUserTokenContractConfig,
+    functionName: "getVerifiedUserMetadata",
+    args: [address],
+    onSuccess: (data: any) => {
+      console.log("Queried Auth Token", data);
+      if (data?.userName === "" || !(data?.category == "individual")) {
+        router.push("/");
+      }
+    },
+    onError: (error) => {
+      console.error("Error querying Auth Token", error);
+    },
+  });
   return (
     <>
       <Connected>
