@@ -1,7 +1,13 @@
+import HomeNavbar from "@/components/navbar";
 import React from "react";
 
 const User = () => {
-  return <div>User</div>;
+  return (
+    <>
+      <HomeNavbar />
+      <div>User</div>
+    </>
+  );
 };
 
 export default User;
