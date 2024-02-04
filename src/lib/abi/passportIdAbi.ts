@@ -272,6 +272,11 @@ export const passportIdContractABI = [
             type: "address",
           },
           {
+            internalType: "address",
+            name: "credentialHolder",
+            type: "address",
+          },
+          {
             internalType: "uint256",
             name: "tokenId",
             type: "uint256",
@@ -285,6 +290,16 @@ export const passportIdContractABI = [
             internalType: "address",
             name: "sbtAddress",
             type: "address",
+          },
+          {
+            internalType: "string",
+            name: "sbtName",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "sbySymbol",
+            type: "string",
           },
         ],
         internalType: "struct PassportID.VerificationRequest[]",
@@ -307,6 +322,11 @@ export const passportIdContractABI = [
             type: "address",
           },
           {
+            internalType: "address",
+            name: "credentialHolder",
+            type: "address",
+          },
+          {
             internalType: "uint256",
             name: "tokenId",
             type: "uint256",
@@ -320,6 +340,16 @@ export const passportIdContractABI = [
             internalType: "address",
             name: "sbtAddress",
             type: "address",
+          },
+          {
+            internalType: "string",
+            name: "sbtName",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "sbySymbol",
+            type: "string",
           },
         ],
         internalType: "struct PassportID.VerificationRequest[]",
@@ -496,6 +526,21 @@ export const passportIdContractABI = [
         internalType: "uint256",
         name: "tokenId",
         type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "sbtAddress",
+        type: "address",
+      },
+      {
+        internalType: "string",
+        name: "sbtName",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "sbtSymbol",
+        type: "string",
       },
     ],
     name: "requestForVerification",
