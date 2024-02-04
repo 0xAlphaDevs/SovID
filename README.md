@@ -1,16 +1,16 @@
 # SovID Protocol
 
-Sovid is a decentralised Identity and credentials management protocol on LightLink chain. SovID is your gateway to sovereign identity. We are leveraging LightLink Infrastructure to mint digital identities and credentials as NFTs (in form of SBTs).
+Sovid is a decentralised identity and credentials management protocol on LightLink chain. SovID is your gateway to sovereign identity. We are leveraging LightLink Infrastructure to mint digital identities and credentials as NFTs (in form of SBTs).
 
 ## Table of Contents
 
 1. [All Links](#links)
 2. [Instructions to setup and run locally ](#instructions-to-setup)
-3. [Protocol Specs](#protocol-specs)
-4. [System Design](#system-design)
-5. [App Demo](#app-demo)
-6. [Tech Stack](#tech-stack)
-7. [Deployed Contracts](#deployed-contracts)
+3. [Deployed Contracts](#deployed-contracts)
+4. [Protocol Specs](#protocol-specs)
+5. [System Design](#system-design)
+6. [App Demo](#app-demo)
+7. [Tech Stack](#tech-stack)
 8. [Our Solution (Architecture)](#our-solution-architecture)
 9. [Team](#team)
 
@@ -30,6 +30,10 @@ Follow these instructions to set up and run the project:
 - Install project dependencies: `pnpm install`
 - Start the development server: `pnpm run dev`
 - Access the web app in your browser at [http://localhost:3000](http://localhost:3000)
+
+## Deployed Contracts
+
+- AUTH
 
 ## Protocol Specs
 
@@ -63,10 +67,6 @@ Follow these instructions to set up and run the project:
 - wagmi
 - view
 - @wagmi/core
-
-## Deployed Contracts on Blockscout
-
-- AUTH
 
 ## Our Solution (Architecture)
 
