@@ -23,14 +23,10 @@ import {
   IconButton,
   Tooltip,
 } from "@material-tailwind/react";
+import { sbts } from "@/constants/sbt";
+import { useContractReads } from "wagmi";
 
-const TABLE_HEAD = [
-  "Credential Holder",
-  "Requested Credential",
-  "Status",
-  "Request Date",
-  "",
-];
+const TABLE_HEAD = ["Credential Holder", "Requested Credential", "Status", ""];
 
 const TABLE_ROWS = [
   {
@@ -65,26 +61,123 @@ const TABLE_ROWS = [
   },
 ];
 
+interface VerificationRequest {
+  img: string;
+  userName: string;
+  credentialHolder: string;
+  sbtName: string;
+  sbtAddress: string;
+  online: boolean;
+  status: string;
+}
+
 export default function VerificationRequestsTable({
   requestVerification,
 }: any) {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredRows, setFilteredRows] = useState(TABLE_ROWS);
+  const [verificationRequests, setVerificationRequests] = useState<
+    VerificationRequest[]
+  >([]);
+  const [filteredRows, setFilteredRows] = useState<VerificationRequest[]>([]);
   const [tooltipContent, setTooltipContent] = useState("Copy Address");
 
   useEffect(() => {
     if (searchTerm === "") {
-      setFilteredRows(TABLE_ROWS);
+      setFilteredRows(verificationRequests);
     } else {
-      let filtered = TABLE_ROWS.filter(
-        (row) =>
-          row.userName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          row.credentialHolder.toLowerCase().includes(searchTerm.toLowerCase())
+      let filtered = verificationRequests.filter((row) =>
+        row.credentialHolder.toLowerCase().includes(searchTerm.toLowerCase())
       );
       setFilteredRows(filtered);
     }
   }, [searchTerm]);
+
+  const { data, isSuccess, isLoading } = useContractReads({
+    contracts: [
+      {
+        address: sbts.EDU.sbtAddress,
+        abi: sbts.EDU.abi,
+        functionName: "getVerificationRequestsByOrganization",
+        args: [],
+      },
+      {
+        address: sbts.EMP.sbtAddress,
+        abi: sbts.EMP.abi,
+        functionName: "getVerificationRequestsByOrganization",
+        args: [],
+      },
+      {
+        address: sbts.SSN.sbtAddress,
+        abi: sbts.SSN.abi,
+        functionName: "getVerificationRequestsByOrganization",
+        args: [],
+      },
+      {
+        address: sbts.PID.sbtAddress,
+        abi: sbts.PID.abi,
+        functionName: "getVerificationRequestsByOrganization",
+        args: [],
+      },
+    ],
+    onSuccess: (data: any) => {
+      console.log("verification Requests", data);
+
+      let allSentRequests: any = [];
+
+      let educationIdRequests = data[0].result;
+      let employeeIdRequests = data[1].result;
+      let nationalIdRequests = data[2].result;
+      let passportIdRequests = data[3].result;
+
+      educationIdRequests.forEach((request: any) => {
+        allSentRequests.push({
+          img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-3.jpg",
+          credentialHolder: request.credentialHolder,
+          sbtName: request.sbtName,
+          sbtAddress: request.sbtAddress,
+          online: true,
+          status: request.status,
+        });
+      });
+
+      employeeIdRequests.forEach((request: any) => {
+        allSentRequests.push({
+          img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-2.jpg",
+          credentialHolder: request.credentialHolder,
+          sbtName: request.sbtName,
+          sbtAddress: request.sbtAddress,
+          online: false,
+          status: request.status,
+        });
+      });
+
+      nationalIdRequests.forEach((request: any) => {
+        allSentRequests.push({
+          img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-1.jpg",
+          credentialHolder: request.credentialHolder,
+          sbtName: request.sbtName,
+          sbtAddress: request.sbtAddress,
+          online: false,
+          status: request.status,
+        });
+      });
+
+      passportIdRequests.forEach((request: any) => {
+        allSentRequests.push({
+          img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-1.jpg",
+          credentialHolder: request.credentialHolder,
+          sbtName: request.sbtName,
+          sbtAddress: request.sbtAddress,
+          online: false,
+          status: request.status,
+        });
+      });
+
+      setVerificationRequests(allSentRequests);
+      setFilteredRows(allSentRequests);
+    },
+  });
 
   const handleClick = () => {
     // replace hard coded string with sbt userName
@@ -186,7 +279,6 @@ export default function VerificationRequestsTable({
                     sbtName,
                     sbtAddress,
                     status,
-                    date,
                   },
                   index
                 ) => {
@@ -206,14 +298,14 @@ export default function VerificationRequestsTable({
                             size="sm"
                           />
                           <div className="flex flex-col">
-                            <Typography
+                            {/* <Typography
                               placeholder=""
                               variant="small"
                               color="blue-gray"
                               className="font-normal"
                             >
                               {userName}
-                            </Typography>
+                            </Typography> */}
                             <Typography
                               placeholder=""
                               variant="small"
@@ -281,14 +373,14 @@ export default function VerificationRequestsTable({
                             value={
                               status == "Pending"
                                 ? "Pending"
-                                : status == "Accepted"
-                                ? "Accepted"
+                                : status == "Approved"
+                                ? "Approved"
                                 : "Rejected"
                             }
                             color={
                               status == "Pending"
                                 ? "yellow"
-                                : status == "Accepted"
+                                : status == "Approved"
                                 ? "green"
                                 : "red"
                             }
@@ -296,24 +388,14 @@ export default function VerificationRequestsTable({
                         </div>
                       </td>
                       <td className={classes}>
-                        <Typography
-                          placeholder=""
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {date}
-                        </Typography>
-                      </td>
-                      <td className={classes}>
                         <Tooltip content="You can view this SBT">
                           <Button
                             placeholder=""
                             color="green"
                             onClick={handleClick}
-                            disabled={!(status == "Accepted")}
+                            disabled={!(status == "Approved")}
                           >
-                            {status == "Accepted" ? "View" : "-NA-"}
+                            {status == "Approved" ? "View" : "-NA-"}
                           </Button>
                         </Tooltip>
                       </td>
