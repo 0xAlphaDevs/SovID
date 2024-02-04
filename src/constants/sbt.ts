@@ -1,3 +1,4 @@
+import { authorizedUserTokenABI } from "@/lib/abi/authorizedUserTokenAbi";
 import { educationalIdContractABI } from "@/lib/abi/educationalIdAbi";
 import { employeeIdContractABI } from "@/lib/abi/employeeIdAbi";
 import { nationalIdContractABI } from "@/lib/abi/nationalIdAbi";
@@ -13,6 +14,7 @@ export const sbts: { [key: string]: any } = {
       { title: "Category", type: "string" },
       { title: "Allowed SBTs", type: "string" },
     ],
+    abi: authorizedUserTokenABI,
     active: true,
   },
   EDU: {
