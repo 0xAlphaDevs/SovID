@@ -50,14 +50,6 @@ const App = () => {
                 placeholder=""
                 variant="h5"
                 color="blue-gray"
-                className="mb-2 font-semibold text-purple-400"
-              >
-                Your gateway to sovereign identity
-              </Typography>
-              <Typography
-                placeholder=""
-                variant="h5"
-                color="blue-gray"
                 className="mb-2"
               >
                 Hello there 👋
@@ -66,6 +58,14 @@ const App = () => {
                 Connect your wallet to get started.
                 <br />
                 <br />
+              </Typography>
+              <Typography
+                placeholder=""
+                variant="h5"
+                color="blue-gray"
+                className="mb-2 font-semibold text-purple-400"
+              >
+                Your gateway to sovereign identity
               </Typography>
             </CardBody>
             <CardFooter className="pt-0 flex justify-center" placeholder="">
