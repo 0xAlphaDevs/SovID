@@ -24,26 +24,21 @@ import {
   Tooltip,
 } from "@material-tailwind/react";
 
-// const TABS = [
-//   {
-//     label: "Active",
-//     value: "all",
-//   },
-//   {
-//     label: "Inactive",
-//     value: "monitored",
-//   },
-// ];
-
-const TABLE_HEAD = ["User Wallet", "SBT", "Status", "Request Date", ""];
+const TABLE_HEAD = [
+  "Credential Holder",
+  "Requested Credential",
+  "Status",
+  "Request Date",
+  "",
+];
 
 const TABLE_ROWS = [
   {
     img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-3.jpg",
     userName: "Vitalik",
-    walletAddress: "0xb8b39ed3BebE64f835463Cb8b9F046cB827F90f8",
+    credentialHolder: "0xb8b39ed3BebE64f835463Cb8b9F046cB827F90f1",
     sbtName: "Passport ID (PID)",
-    sbtAddress: "0xb8b39ed3BebE64f835463Cb8b9F046cB827F90f9",
+    sbtAddress: "0xb8b39ed3BebE64f835463Cb8b9F046cB827F90f7",
     online: true,
     status: "Pending",
     date: "23/04/18",
@@ -51,9 +46,9 @@ const TABLE_ROWS = [
   {
     img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-2.jpg",
     userName: "Harsh Tyagi",
-    walletAddress: "0xb8b39ed3BebE64f835463Cb8b9F046cB827F90f8",
+    credentialHolder: "0xb8b39ed3BebE64f835463Cb8b9F046cB827F90f2",
     sbtName: "Employee ID (EMP)",
-    sbtAddress: "0xb8b39ed3BebE64f835463Cb8b9F046cB827F90f9",
+    sbtAddress: "0xb8b39ed3BebE64f835463Cb8b9F046cB827F90f8",
     online: false,
     status: "Accepted",
     date: "23/04/18",
@@ -61,7 +56,7 @@ const TABLE_ROWS = [
   {
     img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-1.jpg",
     userName: "Yashasvi Chaudhary",
-    walletAddress: "0xb8b39ed3BebE64f835463Cb8b9F046cB827F90f8",
+    credentialHolder: "0xb8b39ed3BebE64f835463Cb8b9F046cB827F90f3",
     sbtName: "National ID (SSN)",
     sbtAddress: "0xb8b39ed3BebE64f835463Cb8b9F046cB827F90f9",
     online: false,
@@ -82,8 +77,10 @@ export default function VerificationRequestsTable({
     if (searchTerm === "") {
       setFilteredRows(TABLE_ROWS);
     } else {
-      let filtered = TABLE_ROWS.filter((row) =>
-        row.userName.toLowerCase().includes(searchTerm.toLowerCase())
+      let filtered = TABLE_ROWS.filter(
+        (row) =>
+          row.userName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          row.credentialHolder.toLowerCase().includes(searchTerm.toLowerCase())
       );
       setFilteredRows(filtered);
     }
@@ -91,7 +88,7 @@ export default function VerificationRequestsTable({
 
   const handleClick = () => {
     // replace hard coded string with sbt userName
-    router.push(`https://www.google.com`);
+    // router.push(`https://www.google.com`);
   };
 
   function copyAddress(address: string) {
@@ -120,7 +117,7 @@ export default function VerificationRequestsTable({
               color="gray"
               className="mt-1 font-normal"
             >
-              Here are all the requests you have sent to SBT holders for
+              Here are all the requests you have sent to credential holders for
               verification.
             </Typography>
           </div>
@@ -140,7 +137,7 @@ export default function VerificationRequestsTable({
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
           <div className="w-full md:w-72">
             <Input
-              label="Search"
+              label="Search a user"
               className="focus:ring-0 "
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -185,10 +182,9 @@ export default function VerificationRequestsTable({
                   {
                     img,
                     userName,
-                    walletAddress,
+                    credentialHolder: credentialHolder,
                     sbtName,
                     sbtAddress,
-                    online,
                     status,
                     date,
                   },
@@ -224,16 +220,16 @@ export default function VerificationRequestsTable({
                               color="blue-gray"
                               className="font-normal opacity-70"
                             >
-                              {walletAddress.substring(0, 6) +
+                              {credentialHolder.substring(0, 6) +
                                 "..." +
-                                walletAddress.substring(
-                                  walletAddress.length - 6
+                                credentialHolder.substring(
+                                  credentialHolder.length - 6
                                 )}
                               {/* Add a span of copy icon here 🟡*/}
                               <Tooltip content={tooltipContent}>
                                 <span
                                   onClick={() => {
-                                    copyAddress(walletAddress);
+                                    copyAddress(credentialHolder);
                                   }}
                                   className="inline-flex ml-1 h-[15px] cursor-pointer"
                                 >
@@ -317,7 +313,7 @@ export default function VerificationRequestsTable({
                             onClick={handleClick}
                             disabled={!(status == "Accepted")}
                           >
-                            Verify
+                            {status == "Accepted" ? "View" : "-NA-"}
                           </Button>
                         </Tooltip>
                       </td>
