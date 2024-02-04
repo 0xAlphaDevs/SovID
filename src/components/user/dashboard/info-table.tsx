@@ -17,7 +17,7 @@ import { ViewModal } from "./view-modal";
 import { sbts } from "@/constants/sbt";
 import { useContractReads } from "wagmi";
 
-const TABLE_HEAD = ["SBT Name", "SBT Symbol", "Token ID", ""];
+const TABLE_HEAD = ["Credential Name", "Credential Symbol", "Token ID", ""];
 
 export function InfoTable() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -132,10 +132,10 @@ export function InfoTable() {
         className="rounded-none"
         placeholder=""
       >
-        <div className="mb-8 flex items-center justify-between gap-8">
+        <div className="mb-0 flex items-center justify-between gap-4">
           <div>
             <Typography variant="h5" color="blue-gray" placeholder="">
-              Owned SBTs
+              Owned Credentials / SBTs
             </Typography>
             <Typography
               color="gray"
@@ -144,18 +144,6 @@ export function InfoTable() {
             >
               List of all soul-bound tokens (SBTs) that you hold.
             </Typography>
-          </div>
-        </div>
-        <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-          <div className="w-full md:w-72">
-            <Input
-              label="Search"
-              className="focus:ring-0"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              icon={<MagnifyingGlassIcon className="h-5 w-5" />}
-              crossOrigin={undefined}
-            />
           </div>
         </div>
       </CardHeader>

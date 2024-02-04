@@ -81,14 +81,15 @@ export function InfoCard() {
             <IdentificationIcon className="h-10 text-green-400" />
 
             <Typography placeholder="" className="font-semibold">
-              Can view issued SBTs
+              Can view and share issued credentials
             </Typography>
           </li>
+
           <li className="flex items-center gap-4">
             <ViewfinderCircleIcon className="h-10 text-green-400" />
 
             <Typography placeholder="" className="font-semibold">
-              Can see verification request
+              Can approve and reject verification requests
             </Typography>
           </li>
         </ul>
