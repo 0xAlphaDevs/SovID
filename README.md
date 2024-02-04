@@ -6,15 +6,19 @@ Sovid is a decentralized Identity and credentials management protocol on LightLi
 
 1. [All Links](#links)
 2. [Instructions to setup and run locally ](#instructions-to-setup)
-3. [Tech Stack](#tech-stack)
-4. [Deployed Contracts](#deployed-contracts)
-5. [Our Solution (Architecture)](#our-solution-architecture)
-6. [Team](#team)
+3. [Protocol Specs](#protocol-specs)
+4. [System Design](#system-design)
+5. [App Demo](#app-demo)
+6. [Tech Stack](#tech-stack)
+7. [Deployed Contracts](#deployed-contracts)
+8. [Our Solution (Architecture)](#our-solution-architecture)
+9. [Team](#team)
 
 ## Links
 
 - [Deployed URL](https://sov-id.vercel.app/)
 - [Git Repo with README](https://github.com/0xAlphaDevs/SovID)
+- [Presentation](https://docs.google.com/presentation/d/1vkp38iDjGH78wDCGSNC-ZiXjGE0wekTjaLOagAOP5o0/edit?usp=sharing)
 
 ## Instructions to Setup
 
@@ -26,6 +30,28 @@ Follow these instructions to set up and run the project:
 - Install project dependencies: `pnpm install`
 - Start the development server: `pnpm run dev`
 - Access the web app in your browser at [http://localhost:3000](http://localhost:3000)
+
+## Protocol Specs
+
+- Lightlink Pegasus Testnet
+- Blockscout for verifying ownership of a smart contract and added private tags.
+- Tailwind CSS & Material Tailwind ( UI )
+- Next JS & Vercel (Front-end & Deployment)
+
+## System Design
+
+![image](./public/system-design-1.png)
+![image](./public/3.png)
+![image](./public/4.png)
+
+## App Demo
+
+![image]()
+![image]()
+![image]()
+![image]()
+![image]()
+![image]()
 
 ## Tech Stack
 
