@@ -50,7 +50,7 @@ export function InfoCard() {
     args: [address],
     onSuccess: (data: any) => {
       console.log("Queried Auth Token", data);
-      if (data?.userName === "") {
+      if (data?.userName === "" || data?.category === "individual") {
         router.push("/");
       }
       setAuthToken(data);
