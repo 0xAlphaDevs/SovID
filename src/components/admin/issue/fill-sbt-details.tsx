@@ -29,10 +29,10 @@ export default function FillSbtDetails({
     args: prepareIssueCredentialArgs(formData),
   });
 
-  const { write, data, error, isLoading, isError } = useContractWrite(config);
+  const { write, data, error, isError } = useContractWrite(config);
   const {
     data: receipt,
-    isLoading: isPending,
+    isLoading,
     isSuccess,
   } = useWaitForTransaction({ hash: data?.hash });
 

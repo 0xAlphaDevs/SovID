@@ -15,94 +15,119 @@ import {
 } from "@material-tailwind/react";
 import { ViewModal } from "./view-modal";
 import { sbts } from "@/constants/sbt";
-import { useAccount, useContractReads } from "wagmi";
+import { useAccount, useContractRead } from "wagmi";
 
 const TABLE_HEAD = ["Credential Name", "Credential Symbol", "Token ID", ""];
 
 export function InfoTable() {
   const { address } = useAccount();
   const [filteredRows, setFilteredRows] = useState([]);
-  const [walletSbts, setWalletSbts] = useState([]);
+  const [walletSbts, setWalletSbts] = useState<any>([]);
   const [tooltipContent, setTooltipContent] = useState("Copy Address");
 
-  const { data, isSuccess, isLoading } = useContractReads({
-    contracts: [
-      {
-        address: sbts.EDU.sbtAddress,
-        abi: sbts.EDU.abi,
-        functionName: "getTokenIdsByWallet",
-        args: [],
-      },
-      {
-        address: sbts.EMP.sbtAddress,
-        abi: sbts.EMP.abi,
-        functionName: "getTokenIdsByWallet",
-        args: [],
-      },
-      {
-        address: sbts.SSN.sbtAddress,
-        abi: sbts.SSN.abi,
-        functionName: "getTokenIdsByWallet",
-        args: [],
-      },
-      {
-        address: sbts.PID.sbtAddress,
-        abi: sbts.PID.abi,
-        functionName: "getTokenIdsByWallet",
-        args: [],
-      },
-    ],
+  const {} = useContractRead({
+    address: sbts.EMP.sbtAddress,
+    abi: sbts.EMP.abi,
+    functionName: "getTokenIdsByWallet",
+    args: [],
+    account: address,
     onSuccess: (data: any) => {
-      console.log("Queried SBTS", data);
-
-      let allWalletSbts: any = [];
-
-      let educationIdSbts = data[0].result;
-      let employeeIdSbts = data[1].result;
-      let nationalIdSbts = data[2].result;
-      let passportIdSbts = data[3].result;
-
-      educationIdSbts.forEach((sbt: any) => {
-        allWalletSbts.push({
-          sbtName: sbts.EDU.sbtName,
-          sbtSymbol: sbts.EDU.sbtSymbol,
-          sbtAddress: sbts.EDU.sbtAddress,
-          tokenId: sbt,
-        });
+      data.forEach((sbt: any) => {
+        setWalletSbts((prev: any) => [
+          ...prev,
+          {
+            sbtName: sbts.EMP.sbtName,
+            sbtSymbol: sbts.EMP.sbtSymbol,
+            sbtAddress: sbts.EMP.sbtAddress,
+            tokenId: sbt,
+          },
+        ]);
       });
-
-      employeeIdSbts.forEach((sbt: any) => {
-        allWalletSbts.push({
-          sbtName: sbts.EMP.sbtName,
-          sbtSymbol: sbts.EMP.sbtSymbol,
-          sbtAddress: sbts.EMP.sbtAddress,
-          tokenId: sbt,
-        });
-      });
-
-      nationalIdSbts.forEach((sbt: any) => {
-        allWalletSbts.push({
-          sbtName: sbts.SSN.sbtName,
-          sbtSymbol: sbts.SSN.sbtSymbol,
-          sbtAddress: sbts.SSN.sbtAddress,
-          tokenId: sbt,
-        });
-      });
-
-      passportIdSbts.forEach((sbt: any) => {
-        allWalletSbts.push({
-          sbtName: sbts.PID.sbtName,
-          sbtSymbol: sbts.PID.sbtSymbol,
-          sbtAddress: sbts.PID.sbtAddress,
-          tokenId: sbt,
-        });
-      });
-
-      console.log("ALL SBTS", allWalletSbts);
-      setWalletSbts(allWalletSbts);
-      setFilteredRows(allWalletSbts);
+      console.log("Token IDs", data);
+    },
+    onError: (error) => {
+      console.error("Error querying Auth Token", error);
     },
   });
+
+  const {} = useContractRead({
+    address: sbts.EDU.sbtAddress,
+    abi: sbts.EDU.abi,
+    functionName: "getTokenIdsByWallet",
+    args: [],
+    account: address,
+    onSuccess: (data: any) => {
+      data.forEach((sbt: any) => {
+        setWalletSbts((prev: any) => [
+          ...prev,
+          {
+            sbtName: sbts.EDU.sbtName,
+            sbtSymbol: sbts.EDU.sbtSymbol,
+            sbtAddress: sbts.EDU.sbtAddress,
+            tokenId: sbt,
+          },
+        ]);
+      });
+      console.log("Token IDs", data);
+    },
+    onError: (error) => {
+      console.error("Error querying Auth Token", error);
+    },
+  });
+
+  const {} = useContractRead({
+    address: sbts.SSN.sbtAddress,
+    abi: sbts.SSN.abi,
+    functionName: "getTokenIdsByWallet",
+    args: [],
+    account: address,
+    onSuccess: (data: any) => {
+      data.forEach((sbt: any) => {
+        setWalletSbts((prev: any) => [
+          ...prev,
+          {
+            sbtName: sbts.SSN.sbtName,
+            sbtSymbol: sbts.SSN.sbtSymbol,
+            sbtAddress: sbts.SSN.sbtAddress,
+            tokenId: sbt,
+          },
+        ]);
+      });
+      console.log("Token IDs", data);
+    },
+    onError: (error) => {
+      console.error("Error querying Auth Token", error);
+    },
+  });
+
+  const {} = useContractRead({
+    address: sbts.PID.sbtAddress,
+    abi: sbts.PID.abi,
+    functionName: "getTokenIdsByWallet",
+    args: [],
+    account: address,
+    onSuccess: (data: any) => {
+      data.forEach((sbt: any) => {
+        setWalletSbts((prev: any) => [
+          ...prev,
+          {
+            sbtName: sbts.PID.sbtName,
+            sbtSymbol: sbts.PID.sbtSymbol,
+            sbtAddress: sbts.PID.sbtAddress,
+            tokenId: sbt,
+          },
+        ]);
+      });
+      console.log("Token IDs", data);
+    },
+    onError: (error) => {
+      console.error("Error querying Auth Token", error);
+    },
+  });
+
+  useEffect(() => {
+    setFilteredRows(walletSbts);
+  }, [walletSbts]);
 
   function copyAddress(address: string) {
     navigator.clipboard.writeText(address);
@@ -243,6 +268,7 @@ export function InfoTable() {
                             sbtName={sbtName}
                             sbtSymbol={sbtSymbol}
                             tokenId={tokenId}
+                            status="Approved"
                             sbtAddress={sbtAddress}
                           />
                         </div>

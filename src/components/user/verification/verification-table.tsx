@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
 import {
   MagnifyingGlassIcon,
@@ -24,7 +24,7 @@ import {
   Tooltip,
 } from "@material-tailwind/react";
 import { sbts } from "@/constants/sbt";
-import { useContractReads, useContractWrite } from "wagmi";
+import { useContractRead, useContractWrite, useAccount } from "wagmi";
 
 const TABLE_HEAD = ["Requested by", "Requested Credential", "Status", ""];
 
@@ -40,6 +40,7 @@ interface VerificationRequest {
 }
 
 export default function VerificationRequestsTable() {
+  const { address } = useAccount();
   const [searchTerm, setSearchTerm] = useState("");
   const [sbtSymbol, setSbtSymbol] = useState("");
   const [verificationRequests, setVerificationRequests] = useState<
@@ -59,109 +60,139 @@ export default function VerificationRequestsTable() {
     }
   }, [searchTerm]);
 
-  const { isSuccess, isLoading } = useContractReads({
-    contracts: [
-      {
-        address: sbts.EDU.sbtAddress,
-        abi: sbts.EDU.abi,
-        functionName: "getVerificationRequestsForUser",
-        args: [],
-      },
-      {
-        address: sbts.EMP.sbtAddress,
-        abi: sbts.EMP.abi,
-        functionName: "getVerificationRequestsForUser",
-        args: [],
-      },
-      {
-        address: sbts.SSN.sbtAddress,
-        abi: sbts.SSN.abi,
-        functionName: "getVerificationRequestsForUser",
-        args: [],
-      },
-      {
-        address: sbts.PID.sbtAddress,
-        abi: sbts.PID.abi,
-        functionName: "getVerificationRequestsForUser",
-        args: [],
-      },
-    ],
+  const {} = useContractRead({
+    address: sbts.EMP.sbtAddress,
+    abi: sbts.EMP.abi,
+    functionName: "getVerificationRequestsForUser",
+    args: [],
+    account: address,
     onSuccess: (data: any) => {
-      console.log("verification Requests", data);
-
-      let allSentRequests: VerificationRequest[] = [];
-
-      let educationIdRequests = data[0].result;
-      let employeeIdRequests = data[1].result;
-      let nationalIdRequests = data[2].result;
-      let passportIdRequests = data[3].result;
-
-      educationIdRequests.forEach((request: any) => {
-        allSentRequests.push({
-          img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-3.jpg",
-          requestedBy: request.requestedBy,
-          sbtName: request.sbtName,
-          sbtSymbol: request.sbtSymbol,
-          sbtAddress: request.sbtAddress,
-          online: true,
-          status: request.status,
-          tokenId: request.tokenId,
-        });
+      data.forEach((request: any) => {
+        setVerificationRequests((prev: any) => [
+          ...prev,
+          {
+            img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-3.jpg",
+            credentialHolder: request.credentialHolder,
+            requestedBy: request.requestedBy,
+            sbtName: request.sbtName,
+            sbtSymbol: request.sbtSymbol,
+            tokenId: request.tokenId,
+            sbtAddress: request.sbtAddress,
+            online: true,
+            status: request.status,
+          },
+        ]);
       });
-
-      employeeIdRequests.forEach((request: any) => {
-        allSentRequests.push({
-          img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-2.jpg",
-          requestedBy: request.requestedBy,
-          sbtName: request.sbtName,
-          sbtSymbol: request.sbtSymbol,
-          sbtAddress: request.sbtAddress,
-          online: false,
-          status: request.status,
-          tokenId: request.tokenId,
-        });
-      });
-
-      nationalIdRequests.forEach((request: any) => {
-        allSentRequests.push({
-          img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-1.jpg",
-          requestedBy: request.requestedBy,
-          sbtName: request.sbtName,
-          sbtSymbol: request.sbtSymbol,
-          sbtAddress: request.sbtAddress,
-          online: false,
-          status: request.status,
-          tokenId: request.tokenId,
-        });
-      });
-
-      passportIdRequests.forEach((request: any) => {
-        allSentRequests.push({
-          img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-1.jpg",
-          requestedBy: request.requestedBy,
-          sbtName: request.sbtName,
-          sbtSymbol: request.sbtSymbol,
-          sbtAddress: request.sbtAddress,
-          online: false,
-          status: request.status,
-          tokenId: request.tokenId,
-        });
-      });
-
-      setVerificationRequests(allSentRequests);
-      setFilteredRows(allSentRequests);
+      console.log("Verification requests data", data);
+    },
+    onError: (error) => {
+      console.error("Error querying Auth Token", error);
     },
   });
+
+  const {} = useContractRead({
+    address: sbts.EDU.sbtAddress,
+    abi: sbts.EDU.abi,
+    functionName: "getVerificationRequestsForUser",
+    args: [],
+    account: address,
+    onSuccess: (data: any) => {
+      data.forEach((request: any) => {
+        setVerificationRequests((prev: any) => [
+          ...prev,
+          {
+            img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-3.jpg",
+            credentialHolder: request.credentialHolder,
+            requestedBy: request.requestedBy,
+            sbtName: request.sbtName,
+            sbtSymbol: request.sbtSymbol,
+            tokenId: request.tokenId,
+            sbtAddress: request.sbtAddress,
+            online: true,
+            status: request.status,
+          },
+        ]);
+      });
+      console.log("Verification requests data", data);
+    },
+    onError: (error) => {
+      console.error("Error querying Auth Token", error);
+    },
+  });
+
+  const {} = useContractRead({
+    address: sbts.SSN.sbtAddress,
+    abi: sbts.SSN.abi,
+    functionName: "getVerificationRequestsForUser",
+    args: [],
+    account: address,
+    onSuccess: (data: any) => {
+      data.forEach((request: any) => {
+        setVerificationRequests((prev: any) => [
+          ...prev,
+          {
+            img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-3.jpg",
+            credentialHolder: request.credentialHolder,
+            requestedBy: request.requestedBy,
+            sbtName: request.sbtName,
+            sbtSymbol: request.sbtSymbol,
+            tokenId: request.tokenId,
+            sbtAddress: request.sbtAddress,
+            online: true,
+            status: request.status,
+          },
+        ]);
+      });
+      console.log("Verification requests data", data);
+    },
+    onError: (error) => {
+      console.error("Error querying Auth Token", error);
+    },
+  });
+
+  const {} = useContractRead({
+    address: sbts.PID.sbtAddress,
+    abi: sbts.PID.abi,
+    functionName: "getVerificationRequestsForUser",
+    args: [],
+    account: address,
+    onSuccess: (data: any) => {
+      data.forEach((request: any) => {
+        setVerificationRequests((prev: any) => [
+          ...prev,
+          {
+            img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-3.jpg",
+            credentialHolder: request.credentialHolder,
+            requestedBy: request.requestedBy,
+            sbtName: request.sbtName,
+            sbtSymbol: request.sbtSymbol,
+            tokenId: request.tokenId,
+            sbtAddress: request.sbtAddress,
+            online: true,
+            status: request.status,
+          },
+        ]);
+      });
+      console.log("Verification requests data", data);
+    },
+    onError: (error) => {
+      console.error("Error querying Auth Token", error);
+    },
+  });
+
+  useEffect(() => {
+    setFilteredRows(verificationRequests);
+  }, [verificationRequests]);
+
+  // Define state for contract write configuration
+  const [writeConfig, setWriteConfig] = useState({});
 
   const {
     write,
     isError,
     isLoading: approvingRequest,
   } = useContractWrite({
-    address: sbtSymbol ? sbts[sbtSymbol].sbtAddress : "",
-    abi: sbtSymbol ? sbts[sbtSymbol].abi : "",
-    functionName: "approveVerificationRequest",
-
+    ...writeConfig,
     onError: (error) => {
       console.error("Error there was:", error.message);
     },
@@ -170,9 +201,19 @@ export default function VerificationRequestsTable() {
     },
   });
 
-  const approveRequest = (tokenId: string) => {
+  const approveRequest = async (
+    tokenId: string,
+    verifier: string,
+    sbtSymbol: string
+  ) => {
+    setWriteConfig({
+      address: sbts[sbtSymbol].sbtAddress,
+      abi: sbts[sbtSymbol].abi,
+      functionName: "approveVerificationRequest",
+    });
+
     write?.({
-      args: [tokenId, "Approved"],
+      args: [tokenId, verifier],
     });
   };
 
@@ -366,8 +407,7 @@ export default function VerificationRequestsTable() {
                             placeholder=""
                             color="green"
                             onClick={() => {
-                              setSbtSymbol(sbtSymbol);
-                              approveRequest(tokenId);
+                              approveRequest(tokenId, requestedBy, sbtSymbol);
                             }}
                             disabled={!(status == "Pending")}
                           >

@@ -1,3 +1,4 @@
+"use client";
 import React, { use } from "react";
 import {
   Button,
@@ -6,13 +7,14 @@ import {
   DialogBody,
   DialogFooter,
 } from "@material-tailwind/react";
-import { useContractRead } from "wagmi";
+import { useAccount, useContractRead } from "wagmi";
 import { sbts } from "@/constants/sbt";
 
 interface ViewModalProps {
   sbtName: string;
   sbtSymbol: string;
   sbtAddress: `0x${string}`;
+  status: string;
   tokenId: string;
 }
 
@@ -20,18 +22,23 @@ export function ViewModal({
   sbtName,
   sbtSymbol,
   sbtAddress,
+  status,
   tokenId,
 }: ViewModalProps) {
+  const { address } = useAccount();
   const [open, setOpen] = React.useState(false);
   const [sbtData, setSbtData] = React.useState<any>({});
 
-  const { data, isRefetching, refetch } = useContractRead({
+  console.log(sbtAddress, sbtSymbol, tokenId, sbtName);
+
+  const { data, isRefetching } = useContractRead({
     address: sbtAddress, // Fix: Prefix sbtAddress with '0x'
     abi: sbts[sbtSymbol].abi,
     functionName: "verifyCredential",
     args: [tokenId],
+    account: address,
     onSuccess: (data: any) => {
-      console.log(data);
+      console.log("Data", data);
       setSbtData(data);
     },
   });
@@ -42,14 +49,21 @@ export function ViewModal({
 
   return (
     <>
-      <Button
-        onClick={handleOpen}
-        color="green"
-        variant="gradient"
-        placeholder=""
-      >
-        View
-      </Button>
+      {status === "Approved" ? (
+        <Button
+          onClick={handleOpen}
+          color="green"
+          variant="gradient"
+          placeholder=""
+        >
+          View
+        </Button>
+      ) : (
+        <Button color="green" placeholder={""} variant="gradient" disabled>
+          -NA-
+        </Button>
+      )}
+
       <Dialog open={open} handler={handleOpen} placeholder="">
         <DialogHeader
           className="flex justify-center items-center"
