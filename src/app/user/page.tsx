@@ -1,9 +1,8 @@
 "use client";
 
 import HomeNavbar from "@/components/navbar";
-import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import { sbts } from "@/constants/sbt";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Alert } from "@material-tailwind/react";
 import {
   useContractWrite,
@@ -11,13 +10,14 @@ import {
   useWaitForTransaction,
   useAccount,
 } from "wagmi";
+import { useRouter } from "next/navigation";
 import { DefaultSpinner } from "@/components/admin/spinner";
 import SuccessIcon from "@/components/icons/successIcon";
 import ErrorIcon from "@/components/icons/errorIcon";
 
 const User = () => {
   const [formData, setFormData] = useState({} as any);
-
+  const router = useRouter();
   const [open, setOpen] = React.useState(true);
   const { address } = useAccount();
 
@@ -42,6 +42,12 @@ const User = () => {
     write?.();
     setFormData({});
   }
+
+  useEffect(() => {
+    if (isSuccess) {
+      router.push("/user/dashboard");
+    }
+  }, [isSuccess]);
 
   return (
     <>
