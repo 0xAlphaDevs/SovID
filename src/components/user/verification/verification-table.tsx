@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import {
@@ -7,6 +6,7 @@ import {
   ChevronUpDownIcon,
   DocumentDuplicateIcon,
 } from "@heroicons/react/24/outline";
+import { PencilIcon, UserPlusIcon } from "@heroicons/react/24/solid";
 import {
   Card,
   CardHeader,
@@ -15,119 +15,173 @@ import {
   Button,
   CardBody,
   Chip,
+  CardFooter,
+  Tabs,
+  TabsHeader,
+  Tab,
+  Avatar,
+  IconButton,
   Tooltip,
 } from "@material-tailwind/react";
 import { sbts } from "@/constants/sbt";
 import { useContractReads } from "wagmi";
 
-const TABLE_HEAD = ["SBT Name", "SBT Symbol", "Requested By", "Status", ""];
+const TABLE_HEAD = ["Requested by", "Requested Credential", "Status", ""];
 
 const TABLE_ROWS = [
   {
     img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-3.jpg",
-    userName: "vitalik",
-    walletAddress: "0xb8b39ed3BebE64f835463Cb8b9F046cB827F90f8",
-    sbtName: "DID (Digital Identity Token)",
-    sbtAddress: "0xb8b39ed3BebE64f835463Cb8b9F046cB827F90f9",
-    sbtSymbol: "DID",
+    userName: "Vitalik",
+    requestedBy: "0xb8b39ed3BebE64f835463Cb8b9F046cB827F90f1",
+    sbtName: "Passport ID (PID)",
+    sbtAddress: "0xb8b39ed3BebE64f835463Cb8b9F046cB827F90f7",
     online: true,
     status: "Pending",
-    requestedBy: "0xb8b39ed3BebE64f835463Cb8b9F046cB827F90f9",
+    date: "23/04/18",
   },
   {
     img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-2.jpg",
-    userName: "harsh",
-    walletAddress: "0xb8b39ed3BebE64f835463Cb8b9F046cB827F90f8",
-    sbtName: "Programator",
-    sbtAddress: "0xb8b39ed3BebE64f835463Cb8b9F046cB827F90f9",
-    sbtSymbol: "DID",
+    userName: "Harsh Tyagi",
+    requestedBy: "0xb8b39ed3BebE64f835463Cb8b9F046cB827F90f2",
+    sbtName: "Employee ID (EMP)",
+    sbtAddress: "0xb8b39ed3BebE64f835463Cb8b9F046cB827F90f8",
     online: false,
     status: "Accepted",
-    requestedBy: "0xb8b39ed3BebE64f835463Cb8b9F046cB827F90f9",
+    date: "23/04/18",
   },
   {
     img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-1.jpg",
-    userName: "yshv",
-    walletAddress: "0xb8b39ed3BebE64f835463Cb8b9F046cB827F90f8",
-    sbtName: "Executive",
+    userName: "Yashasvi Chaudhary",
+    requestedBy: "0xb8b39ed3BebE64f835463Cb8b9F046cB827F90f3",
+    sbtName: "National ID (SSN)",
     sbtAddress: "0xb8b39ed3BebE64f835463Cb8b9F046cB827F90f9",
-    sbtSymbol: "DID",
     online: false,
     status: "Rejected",
-    requestedBy: "0xb8b39ed3BebE64f835463Cb8b9F046cB827F90f9",
+    date: "19/09/17",
   },
 ];
 
-const SBTS = Object.keys(sbts).map((key) => {
-  return {
-    sbtName: sbts[key].sbtName,
-    sbtSymbol: sbts[key].sbtSymbol,
-    sbtAddress: sbts[key].sbtAddress,
-    tokenId: sbts[key].tokenId,
-    abi: sbts[key].abi,
-    active: sbts[key].active,
-  };
-});
+interface VerificationRequest {
+  img: string;
+  userName: string;
+  requestedBy: string;
+  sbtName: string;
+  sbtAddress: string;
+  online: boolean;
+  status: string;
+}
 
-const VerificationTable = () => {
+export default function VerificationRequestsTable({
+  requestVerification,
+}: any) {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredRows, setFilteredRows] = useState(TABLE_ROWS);
+  const [verificationRequests, setVerificationRequests] = useState<
+    VerificationRequest[]
+  >([]);
+  const [filteredRows, setFilteredRows] = useState<VerificationRequest[]>([]);
   const [tooltipContent, setTooltipContent] = useState("Copy Address");
-  const [verificationRequests, setVerificationrequests] = useState([]);
-
-  const { data, isSuccess, isLoading } = useContractReads({
-    contracts: [
-      {
-        address: SBTS[0].sbtAddress,
-        abi: SBTS[0].abi,
-        functionName: "getVerificationRequestsForUser",
-      },
-      {
-        address: SBTS[1].sbtAddress,
-        abi: SBTS[1].abi,
-        functionName: "getVerificationRequestsForUser",
-      },
-      {
-        address: SBTS[2].sbtAddress,
-        abi: SBTS[2].abi,
-        functionName: "getVerificationRequestsForUser",
-      },
-      {
-        address: SBTS[3].sbtAddress,
-        abi: SBTS[3].abi,
-        functionName: "getVerificationRequestsForUser",
-      },
-    ],
-    onSuccess: (data: any) => {
-      let allWalletSbts: any = [];
-      console.log("ALL VERIFICATION REQUESTS", data);
-
-      // setVerificationrequests(allWalletSbts);
-    },
-  });
 
   useEffect(() => {
     if (searchTerm === "") {
       setFilteredRows(verificationRequests);
     } else {
-      const filtered = verificationRequests.filter(
-        (row: { sbtName: string; sbtSymbol: string; tokenId: number }) => {
-          return (
-            row.sbtName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            row.sbtSymbol.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            row.tokenId.toString().includes(searchTerm.toLowerCase())
-          );
-        }
+      let filtered = verificationRequests.filter((row) =>
+        row.requestedBy.toLowerCase().includes(searchTerm.toLowerCase())
       );
       setFilteredRows(filtered);
-      console.log("FILTERED", filtered);
     }
-  }, [searchTerm, verificationRequests]);
+  }, [searchTerm]);
+
+  const { data, isSuccess, isLoading } = useContractReads({
+    contracts: [
+      {
+        address: sbts.EDU.sbtAddress,
+        abi: sbts.EDU.abi,
+        functionName: "getVerificationRequestsForUser",
+        args: [],
+      },
+      {
+        address: sbts.EMP.sbtAddress,
+        abi: sbts.EMP.abi,
+        functionName: "getVerificationRequestsForUser",
+        args: [],
+      },
+      {
+        address: sbts.SSN.sbtAddress,
+        abi: sbts.SSN.abi,
+        functionName: "getVerificationRequestsForUser",
+        args: [],
+      },
+      {
+        address: sbts.PID.sbtAddress,
+        abi: sbts.PID.abi,
+        functionName: "getVerificationRequestsForUser",
+        args: [],
+      },
+    ],
+    onSuccess: (data: any) => {
+      console.log("verification Requests", data);
+
+      let allSentRequests: any = [];
+
+      let educationIdRequests = data[0].result;
+      let employeeIdRequests = data[1].result;
+      let nationalIdRequests = data[2].result;
+      let passportIdRequests = data[3].result;
+
+      educationIdRequests.forEach((request: any) => {
+        allSentRequests.push({
+          img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-3.jpg",
+          requestedBy: request.requestedBy,
+          sbtName: request.sbtName,
+          sbtAddress: request.sbtAddress,
+          online: true,
+          status: request.status,
+        });
+      });
+
+      employeeIdRequests.forEach((request: any) => {
+        allSentRequests.push({
+          img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-2.jpg",
+          requestedBy: request.requestedBy,
+          sbtName: request.sbtName,
+          sbtAddress: request.sbtAddress,
+          online: false,
+          status: request.status,
+        });
+      });
+
+      nationalIdRequests.forEach((request: any) => {
+        allSentRequests.push({
+          img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-1.jpg",
+          requestedBy: request.requestedBy,
+          sbtName: request.sbtName,
+          sbtAddress: request.sbtAddress,
+          online: false,
+          status: request.status,
+        });
+      });
+
+      passportIdRequests.forEach((request: any) => {
+        allSentRequests.push({
+          img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-1.jpg",
+          requestedBy: request.requestedBy,
+          sbtName: request.sbtName,
+          sbtAddress: request.sbtAddress,
+          online: false,
+          status: request.status,
+        });
+      });
+
+      setVerificationRequests(allSentRequests);
+      setFilteredRows(allSentRequests);
+    },
+  });
 
   const handleClick = () => {
     // replace hard coded string with sbt userName
-    router.push(`https://www.google.com`);
+    // router.push(`https://www.google.com`);
   };
 
   function copyAddress(address: string) {
@@ -138,20 +192,8 @@ const VerificationTable = () => {
     }, 2000);
   }
 
-  const handleClickAllow = () => {
-    console.log("Allowed!");
-  };
-
-  const handleClickDeny = () => {
-    console.log("Denied!");
-  };
-
-  const handleClickRevoke = () => {
-    console.log("Revoked!");
-  };
-
   return (
-    <Card className="h-full w-full" placeholder="">
+    <Card placeholder="" className="h-full w-full">
       <CardHeader
         placeholder=""
         floated={false}
@@ -168,14 +210,14 @@ const VerificationTable = () => {
               color="gray"
               className="mt-1 font-normal"
             >
-              Here are all the requests sent by organizations for verification.
+              Here are all the requests you have received for verification.
             </Typography>
           </div>
         </div>
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
           <div className="w-full md:w-72">
             <Input
-              label="Search"
+              label="Search requester"
               className="focus:ring-0 "
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -218,12 +260,12 @@ const VerificationTable = () => {
               filteredRows.map(
                 (
                   {
+                    img,
                     userName,
+                    requestedBy: requestedBy,
                     sbtName,
                     sbtAddress,
-                    sbtSymbol,
                     status,
-                    requestedBy,
                   },
                   index
                 ) => {
@@ -234,6 +276,47 @@ const VerificationTable = () => {
 
                   return (
                     <tr key={userName}>
+                      <td className={classes}>
+                        <div className="flex items-center gap-3">
+                          <Avatar
+                            placeholder=""
+                            src={img}
+                            alt={userName}
+                            size="sm"
+                          />
+                          <div className="flex flex-col">
+                            {/* <Typography
+                              placeholder=""
+                              variant="small"
+                              color="blue-gray"
+                              className="font-normal"
+                            >
+                              {userName}
+                            </Typography> */}
+                            <Typography
+                              placeholder=""
+                              variant="small"
+                              color="blue-gray"
+                              className="font-normal opacity-70"
+                            >
+                              {requestedBy.substring(0, 6) +
+                                "..." +
+                                requestedBy.substring(requestedBy.length - 6)}
+                              {/* Add a span of copy icon here 🟡*/}
+                              <Tooltip content={tooltipContent}>
+                                <span
+                                  onClick={() => {
+                                    copyAddress(requestedBy);
+                                  }}
+                                  className="inline-flex ml-1 h-[15px] cursor-pointer"
+                                >
+                                  <DocumentDuplicateIcon />
+                                </span>
+                              </Tooltip>
+                            </Typography>
+                          </div>
+                        </div>
+                      </td>
                       <td className={classes}>
                         <div className="flex flex-col">
                           <Typography
@@ -268,42 +351,6 @@ const VerificationTable = () => {
                         </div>
                       </td>
                       <td className={classes}>
-                        <div className="flex flex-col">
-                          <Typography
-                            placeholder=""
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal"
-                          >
-                            {sbtSymbol}
-                          </Typography>
-                        </div>
-                      </td>
-
-                      <td className={classes}>
-                        <Typography
-                          placeholder=""
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal opacity-70"
-                        >
-                          {requestedBy.substring(0, 6) +
-                            "..." +
-                            requestedBy.substring(requestedBy.length - 6)}
-                          {/* Add a span of copy icon here 🟡 */}
-                          <Tooltip content={tooltipContent}>
-                            <span
-                              onClick={() => {
-                                copyAddress(sbtAddress);
-                              }}
-                              className="inline-flex ml-1 h-[15px] cursor-pointer"
-                            >
-                              <DocumentDuplicateIcon />
-                            </span>
-                          </Tooltip>
-                        </Typography>
-                      </td>
-                      <td className={classes}>
                         <div className="w-max">
                           <Chip
                             variant="ghost"
@@ -311,14 +358,14 @@ const VerificationTable = () => {
                             value={
                               status == "Pending"
                                 ? "Pending"
-                                : status == "Accepted"
-                                ? "Accepted"
+                                : status == "Approved"
+                                ? "Approved"
                                 : "Rejected"
                             }
                             color={
                               status == "Pending"
                                 ? "yellow"
-                                : status == "Accepted"
+                                : status == "Approved"
                                 ? "green"
                                 : "red"
                             }
@@ -326,41 +373,16 @@ const VerificationTable = () => {
                         </div>
                       </td>
                       <td className={classes}>
-                        {status === "Pending" && (
-                          <div className="flex gap-4">
-                            <Button
-                              placeholder=""
-                              color="green"
-                              onClick={handleClickAllow}
-                            >
-                              Approve
-                            </Button>
-
-                            <Button
-                              placeholder=""
-                              color="red"
-                              onClick={handleClickDeny}
-                            >
-                              Reject
-                            </Button>
-                          </div>
-                        )}
-
-                        {status === "Accepted" && (
+                        <Tooltip content="You can view this SBT">
                           <Button
                             placeholder=""
-                            color="red"
-                            onClick={handleClickRevoke}
+                            color="green"
+                            onClick={handleClick}
+                            disabled={!(status == "Pending")}
                           >
-                            Revoke
+                            {status == "Pending" ? "Approve" : "-NA-"}
                           </Button>
-                        )}
-
-                        {status === "Rejected" && (
-                          <Button placeholder="" disabled={true}>
-                            Denied
-                          </Button>
-                        )}
+                        </Tooltip>
                       </td>
                     </tr>
                   );
@@ -372,6 +394,4 @@ const VerificationTable = () => {
       </CardBody>
     </Card>
   );
-};
-
-export default VerificationTable;
+}
