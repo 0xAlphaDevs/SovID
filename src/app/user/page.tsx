@@ -25,7 +25,7 @@ const User = () => {
     address: sbts.AUTH.sbtAddress,
     abi: sbts.AUTH.abi,
     functionName: "mintDefaultAuthSbtForTesting",
-    args: [address, formData.userName, "individual", [sbts.EDU.sbtAddress]],
+    args: [address, formData.userName, "individual", []],
   });
   const {
     data: receipt,
@@ -57,12 +57,11 @@ const User = () => {
               <div className="space-y-12">
                 <div className="border-b border-gray-900/10 pb-12">
                   <h2 className="text-base font-semibold leading-7 text-gray-900 mt-4">
-                    Register to SovID
+                    Register to SovID User
                   </h2>
                   <p className="mt-1 text-sm leading-6 text-gray-600">
                     Please make sure you fill all the details correctly.
                   </p>
-
                   <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                     {/* User Name */}
                     <div className="sm:col-span-6">
