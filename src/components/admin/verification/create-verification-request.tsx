@@ -60,14 +60,6 @@ const CreateVerificationRequest = () => {
     hash: data?.hash,
   });
 
-  function prepareRequestVerificationArgs(formData: any) {
-    let args: string[] = [];
-    args[0] = formData.walletAddress;
-    args[1] = formData.tokenId;
-
-    return args;
-  }
-
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (
@@ -80,7 +72,9 @@ const CreateVerificationRequest = () => {
     }
     console.log(formData);
     write?.();
+    setFormData({ walletAddress: "", sbtSymbol: "", tokenId: "" });
   }
+
   return (
     <div>
       {isLoading ? (

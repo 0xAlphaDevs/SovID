@@ -30,6 +30,8 @@ import CreateVerificationRequest from "@/components/admin/verification/create-ve
 
 const Verification = () => {
   const { address } = useAccount();
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen((cur) => !cur);
   const [formData, setFormData] = React.useState({
     walletAddress: "",
     sbtSymbol: "",
@@ -87,9 +89,17 @@ const Verification = () => {
         <div className="p-8 flex flex-col gap-4">
           <div className="m-8">
             {/* <VerificationForm /> */}
-            <VerificationRequestsTable />
+            <VerificationRequestsTable requestVerification={handleOpen} />
             {/* Request for Verification Dialog */}
-            <CreateVerificationRequest />
+            <Dialog
+              placeholder=""
+              size="xs"
+              open={open}
+              handler={handleOpen}
+              className="bg-transparent shadow-none"
+            >
+              <CreateVerificationRequest />
+            </Dialog>
           </div>
           {/* Transaction result div */}
           <div className="absolute top-10 right-5">
