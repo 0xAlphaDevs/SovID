@@ -298,7 +298,7 @@ export const educationalIdContractABI = [
           },
           {
             internalType: "string",
-            name: "sbySymbol",
+            name: "sbtSymbol",
             type: "string",
           },
         ],
@@ -348,7 +348,7 @@ export const educationalIdContractABI = [
           },
           {
             internalType: "string",
-            name: "sbySymbol",
+            name: "sbtSymbol",
             type: "string",
           },
         ],

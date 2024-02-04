@@ -24,58 +24,24 @@ import {
   Tooltip,
 } from "@material-tailwind/react";
 import { sbts } from "@/constants/sbt";
-import { useContractReads } from "wagmi";
+import { useContractReads, useContractWrite } from "wagmi";
 
 const TABLE_HEAD = ["Requested by", "Requested Credential", "Status", ""];
 
-const TABLE_ROWS = [
-  {
-    img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-3.jpg",
-    userName: "Vitalik",
-    requestedBy: "0xb8b39ed3BebE64f835463Cb8b9F046cB827F90f1",
-    sbtName: "Passport ID (PID)",
-    sbtAddress: "0xb8b39ed3BebE64f835463Cb8b9F046cB827F90f7",
-    online: true,
-    status: "Pending",
-    date: "23/04/18",
-  },
-  {
-    img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-2.jpg",
-    userName: "Harsh Tyagi",
-    requestedBy: "0xb8b39ed3BebE64f835463Cb8b9F046cB827F90f2",
-    sbtName: "Employee ID (EMP)",
-    sbtAddress: "0xb8b39ed3BebE64f835463Cb8b9F046cB827F90f8",
-    online: false,
-    status: "Accepted",
-    date: "23/04/18",
-  },
-  {
-    img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-1.jpg",
-    userName: "Yashasvi Chaudhary",
-    requestedBy: "0xb8b39ed3BebE64f835463Cb8b9F046cB827F90f3",
-    sbtName: "National ID (SSN)",
-    sbtAddress: "0xb8b39ed3BebE64f835463Cb8b9F046cB827F90f9",
-    online: false,
-    status: "Rejected",
-    date: "19/09/17",
-  },
-];
-
 interface VerificationRequest {
   img: string;
-  userName: string;
   requestedBy: string;
   sbtName: string;
+  sbtSymbol: string;
   sbtAddress: string;
   online: boolean;
   status: string;
+  tokenId: string;
 }
 
-export default function VerificationRequestsTable({
-  requestVerification,
-}: any) {
-  const router = useRouter();
+export default function VerificationRequestsTable() {
   const [searchTerm, setSearchTerm] = useState("");
+  const [sbtSymbol, setSbtSymbol] = useState("");
   const [verificationRequests, setVerificationRequests] = useState<
     VerificationRequest[]
   >([]);
@@ -93,7 +59,7 @@ export default function VerificationRequestsTable({
     }
   }, [searchTerm]);
 
-  const { data, isSuccess, isLoading } = useContractReads({
+  const { isSuccess, isLoading } = useContractReads({
     contracts: [
       {
         address: sbts.EDU.sbtAddress,
@@ -123,7 +89,7 @@ export default function VerificationRequestsTable({
     onSuccess: (data: any) => {
       console.log("verification Requests", data);
 
-      let allSentRequests: any = [];
+      let allSentRequests: VerificationRequest[] = [];
 
       let educationIdRequests = data[0].result;
       let employeeIdRequests = data[1].result;
@@ -135,9 +101,11 @@ export default function VerificationRequestsTable({
           img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-3.jpg",
           requestedBy: request.requestedBy,
           sbtName: request.sbtName,
+          sbtSymbol: request.sbtSymbol,
           sbtAddress: request.sbtAddress,
           online: true,
           status: request.status,
+          tokenId: request.tokenId,
         });
       });
 
@@ -146,9 +114,11 @@ export default function VerificationRequestsTable({
           img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-2.jpg",
           requestedBy: request.requestedBy,
           sbtName: request.sbtName,
+          sbtSymbol: request.sbtSymbol,
           sbtAddress: request.sbtAddress,
           online: false,
           status: request.status,
+          tokenId: request.tokenId,
         });
       });
 
@@ -157,9 +127,11 @@ export default function VerificationRequestsTable({
           img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-1.jpg",
           requestedBy: request.requestedBy,
           sbtName: request.sbtName,
+          sbtSymbol: request.sbtSymbol,
           sbtAddress: request.sbtAddress,
           online: false,
           status: request.status,
+          tokenId: request.tokenId,
         });
       });
 
@@ -168,9 +140,11 @@ export default function VerificationRequestsTable({
           img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-1.jpg",
           requestedBy: request.requestedBy,
           sbtName: request.sbtName,
+          sbtSymbol: request.sbtSymbol,
           sbtAddress: request.sbtAddress,
           online: false,
           status: request.status,
+          tokenId: request.tokenId,
         });
       });
 
@@ -179,9 +153,27 @@ export default function VerificationRequestsTable({
     },
   });
 
-  const handleClick = () => {
-    // replace hard coded string with sbt userName
-    // router.push(`https://www.google.com`);
+  const {
+    write,
+    isError,
+    isLoading: approvingRequest,
+  } = useContractWrite({
+    address: sbtSymbol ? sbts[sbtSymbol].sbtAddress : "",
+    abi: sbtSymbol ? sbts[sbtSymbol].abi : "",
+    functionName: "approveVerificationRequest",
+
+    onError: (error) => {
+      console.error("Error there was:", error.message);
+    },
+    onSuccess: (result) => {
+      console.log("Success:", result);
+    },
+  });
+
+  const approveRequest = (tokenId: string) => {
+    write?.({
+      args: [tokenId, "Approved"],
+    });
   };
 
   function copyAddress(address: string) {
@@ -261,29 +253,25 @@ export default function VerificationRequestsTable({
                 (
                   {
                     img,
-                    userName,
-                    requestedBy: requestedBy,
+                    requestedBy,
                     sbtName,
+                    sbtSymbol,
                     sbtAddress,
                     status,
+                    tokenId,
                   },
                   index
                 ) => {
-                  const isLast = index === TABLE_ROWS.length - 1;
+                  const isLast = index === filteredRows.length - 1;
                   const classes = isLast
                     ? "p-4"
                     : "p-4 border-b border-blue-gray-50";
 
                   return (
-                    <tr key={userName}>
+                    <tr key={tokenId}>
                       <td className={classes}>
                         <div className="flex items-center gap-3">
-                          <Avatar
-                            placeholder=""
-                            src={img}
-                            alt={userName}
-                            size="sm"
-                          />
+                          <Avatar placeholder="" src={img} size="sm" />
                           <div className="flex flex-col">
                             {/* <Typography
                               placeholder=""
@@ -302,7 +290,7 @@ export default function VerificationRequestsTable({
                               {requestedBy.substring(0, 6) +
                                 "..." +
                                 requestedBy.substring(requestedBy.length - 6)}
-                              {/* Add a span of copy icon here 🟡*/}
+                              {/* Add a span of copy icon here */}
                               <Tooltip content={tooltipContent}>
                                 <span
                                   onClick={() => {
@@ -336,7 +324,7 @@ export default function VerificationRequestsTable({
                             {sbtAddress.substring(0, 6) +
                               "..." +
                               sbtAddress.substring(sbtAddress.length - 6)}
-                            {/* Add a span of copy icon here 🟡 */}
+                            {/* Add a span of copy icon here */}
                             <Tooltip content={tooltipContent}>
                               <span
                                 onClick={() => {
@@ -373,11 +361,14 @@ export default function VerificationRequestsTable({
                         </div>
                       </td>
                       <td className={classes}>
-                        <Tooltip content="You can view this SBT">
+                        <Tooltip content="Approve request to share the credential.">
                           <Button
                             placeholder=""
                             color="green"
-                            onClick={handleClick}
+                            onClick={() => {
+                              setSbtSymbol(sbtSymbol);
+                              approveRequest(tokenId);
+                            }}
                             disabled={!(status == "Pending")}
                           >
                             {status == "Pending" ? "Approve" : "-NA-"}

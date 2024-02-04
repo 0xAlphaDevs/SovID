@@ -298,7 +298,7 @@ export const passportIdContractABI = [
           },
           {
             internalType: "string",
-            name: "sbySymbol",
+            name: "sbtSymbol",
             type: "string",
           },
         ],
@@ -348,7 +348,7 @@ export const passportIdContractABI = [
           },
           {
             internalType: "string",
-            name: "sbySymbol",
+            name: "sbtSymbol",
             type: "string",
           },
         ],

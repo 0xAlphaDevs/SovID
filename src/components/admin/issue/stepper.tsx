@@ -76,11 +76,6 @@ export default function StepperIssueSbt({
   const handleNext = () => !isLastStep && setActiveStep((cur) => cur + 1);
   const handlePrev = () => !isFirstStep && setActiveStep((cur) => cur - 1);
 
-  function issueCredential() {
-    // check if data is correct and not empty
-    // initiate transaction
-  }
-
   return (
     <div className="w-full px-24 py-4">
       <Stepper

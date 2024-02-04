@@ -12,7 +12,7 @@ const Verification = () => {
   const { address } = useAccount();
   const router = useRouter();
 
-  const { error, isLoading, isSuccess } = useContractRead({
+  const { error, isSuccess } = useContractRead({
     ...authorizedUserTokenContractConfig,
     functionName: "getVerifiedUserMetadata",
     args: [address],

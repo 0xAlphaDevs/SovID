@@ -34,11 +34,6 @@ const Verification = () => {
   const { address } = useAccount();
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen((cur) => !cur);
-  const [formData, setFormData] = React.useState({
-    walletAddress: "",
-    sbtSymbol: "",
-    tokenId: "",
-  } as any);
 
   const router = useRouter();
 
@@ -56,50 +51,6 @@ const Verification = () => {
       console.error("Error querying Auth Token", error);
     },
   });
-
-  const { write, data, isLoading, isError } = useContractWrite({
-    address: sbts.EDU.address,
-    abi: sbts.EDU.abi,
-    functionName: "requestForVerification",
-    args: [address, "0"],
-    onError: (error) => {
-      console.error("Error:", error);
-    },
-    onSettled: (data) => {
-      console.log("Receipt:", data);
-    },
-    onSuccess: (result) => {
-      console.log("Success:", result);
-    },
-  });
-
-  const {
-    data: receipt,
-    isLoading: isPending,
-    isSuccess,
-  } = useWaitForTransaction({ hash: data?.hash });
-
-  function prepareRequestVerificationArgs(formData: any) {
-    let args: string[] = [];
-    args[0] = formData.walletAddress;
-    args[1] = formData.tokenId;
-
-    return args;
-  }
-
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    if (
-      formData["walletAddress"] == undefined ||
-      formData["sbtSymbol"] == undefined ||
-      formData["tokenId"] == undefined
-    ) {
-      alert("Please fill all the fields");
-      return;
-    }
-    console.log(formData);
-    write?.();
-  }
 
   return (
     <>
@@ -119,19 +70,6 @@ const Verification = () => {
             >
               <CreateVerificationRequest />
             </Dialog>
-          </div>
-          {/* Transaction result div */}
-          <div className="absolute top-10 right-5">
-            {isSuccess && (
-              <Alert icon={<SuccessIcon />} color="green">
-                Transaction Succesful
-              </Alert>
-            )}
-            {isError && (
-              <Alert icon={<ErrorIcon />} color="red">
-                At this moment he knew he fucked up!
-              </Alert>
-            )}
           </div>
         </div>
       </Connected>
