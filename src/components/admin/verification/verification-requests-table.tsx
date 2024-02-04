@@ -25,50 +25,20 @@ import {
 } from "@material-tailwind/react";
 import { sbts } from "@/constants/sbt";
 import { useContractReads } from "wagmi";
+import { ViewModal } from "@/components/user/dashboard/view-modal";
 
 const TABLE_HEAD = ["Credential Holder", "Requested Credential", "Status", ""];
-
-const TABLE_ROWS = [
-  {
-    img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-3.jpg",
-    userName: "Vitalik",
-    credentialHolder: "0xb8b39ed3BebE64f835463Cb8b9F046cB827F90f1",
-    sbtName: "Passport ID (PID)",
-    sbtAddress: "0xb8b39ed3BebE64f835463Cb8b9F046cB827F90f7",
-    online: true,
-    status: "Pending",
-    date: "23/04/18",
-  },
-  {
-    img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-2.jpg",
-    userName: "Harsh Tyagi",
-    credentialHolder: "0xb8b39ed3BebE64f835463Cb8b9F046cB827F90f2",
-    sbtName: "Employee ID (EMP)",
-    sbtAddress: "0xb8b39ed3BebE64f835463Cb8b9F046cB827F90f8",
-    online: false,
-    status: "Accepted",
-    date: "23/04/18",
-  },
-  {
-    img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-1.jpg",
-    userName: "Yashasvi Chaudhary",
-    credentialHolder: "0xb8b39ed3BebE64f835463Cb8b9F046cB827F90f3",
-    sbtName: "National ID (SSN)",
-    sbtAddress: "0xb8b39ed3BebE64f835463Cb8b9F046cB827F90f9",
-    online: false,
-    status: "Rejected",
-    date: "19/09/17",
-  },
-];
 
 interface VerificationRequest {
   img: string;
   userName: string;
   credentialHolder: string;
   sbtName: string;
+  sbtSymbol: string;
   sbtAddress: string;
   online: boolean;
   status: string;
+  tokenId: string;
 }
 
 export default function VerificationRequestsTable({
@@ -135,6 +105,8 @@ export default function VerificationRequestsTable({
           img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-3.jpg",
           credentialHolder: request.credentialHolder,
           sbtName: request.sbtName,
+          sbtSymbol: request.sbtSymbol,
+          tokenId: request.tokenId,
           sbtAddress: request.sbtAddress,
           online: true,
           status: request.status,
@@ -146,6 +118,8 @@ export default function VerificationRequestsTable({
           img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-2.jpg",
           credentialHolder: request.credentialHolder,
           sbtName: request.sbtName,
+          sbtSymbol: request.sbtSymbol,
+          tokenId: request.tokenId,
           sbtAddress: request.sbtAddress,
           online: false,
           status: request.status,
@@ -157,6 +131,8 @@ export default function VerificationRequestsTable({
           img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-1.jpg",
           credentialHolder: request.credentialHolder,
           sbtName: request.sbtName,
+          sbtSymbol: request.sbtSymbol,
+          tokenId: request.tokenId,
           sbtAddress: request.sbtAddress,
           online: false,
           status: request.status,
@@ -168,6 +144,8 @@ export default function VerificationRequestsTable({
           img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-1.jpg",
           credentialHolder: request.credentialHolder,
           sbtName: request.sbtName,
+          sbtSymbol: request.sbtSymbol,
+          tokenId: request.tokenId,
           sbtAddress: request.sbtAddress,
           online: false,
           status: request.status,
@@ -180,8 +158,7 @@ export default function VerificationRequestsTable({
   });
 
   const handleClick = () => {
-    // replace hard coded string with sbt userName
-    // router.push(`https://www.google.com`);
+    // open modal and show
   };
 
   function copyAddress(address: string) {
@@ -277,12 +254,14 @@ export default function VerificationRequestsTable({
                     userName,
                     credentialHolder: credentialHolder,
                     sbtName,
+                    sbtSymbol,
+                    tokenId,
                     sbtAddress,
                     status,
                   },
                   index
                 ) => {
-                  const isLast = index === TABLE_ROWS.length - 1;
+                  const isLast = index === filteredRows.length - 1;
                   const classes = isLast
                     ? "p-4"
                     : "p-4 border-b border-blue-gray-50";
@@ -389,14 +368,12 @@ export default function VerificationRequestsTable({
                       </td>
                       <td className={classes}>
                         <Tooltip content="You can view this SBT">
-                          <Button
-                            placeholder=""
-                            color="green"
-                            onClick={handleClick}
-                            disabled={!(status == "Approved")}
-                          >
-                            {status == "Approved" ? "View" : "-NA-"}
-                          </Button>
+                          <ViewModal
+                            sbtName={sbtName}
+                            sbtSymbol={sbtSymbol}
+                            tokenId={tokenId}
+                            sbtAddress={sbtAddress as `0x${string}`}
+                          />
                         </Tooltip>
                       </td>
                     </tr>

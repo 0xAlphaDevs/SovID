@@ -15,12 +15,12 @@ import {
 } from "@material-tailwind/react";
 import { ViewModal } from "./view-modal";
 import { sbts } from "@/constants/sbt";
-import { useContractReads } from "wagmi";
+import { useAccount, useContractReads } from "wagmi";
 
 const TABLE_HEAD = ["Credential Name", "Credential Symbol", "Token ID", ""];
 
 export function InfoTable() {
-  const [searchTerm, setSearchTerm] = useState("");
+  const { address } = useAccount();
   const [filteredRows, setFilteredRows] = useState([]);
   const [walletSbts, setWalletSbts] = useState([]);
   const [tooltipContent, setTooltipContent] = useState("Copy Address");
@@ -103,18 +103,6 @@ export function InfoTable() {
       setFilteredRows(allWalletSbts);
     },
   });
-
-  useEffect(() => {
-    if (searchTerm === "") {
-      setFilteredRows(walletSbts);
-    } else {
-      const filtered = walletSbts.filter((row: { sbtName: string }) => {
-        return row.sbtName.toLowerCase().includes(searchTerm.toLowerCase());
-      });
-      setFilteredRows(filtered);
-      console.log("FILTERED", filtered);
-    }
-  }, [searchTerm]);
 
   function copyAddress(address: string) {
     navigator.clipboard.writeText(address);
