@@ -1,6 +1,6 @@
 # SovID Protocol
 
-Sovid is a decentralized Identity and credentials management protocol on LightLink chain. SovID is your gateway to sovereign identity. We are leveraging LightLink Infrastructure to mint digital identities and credentials as NFTs (in form of SBTs).
+Sovid is a decentralised Identity and credentials management protocol on LightLink chain. SovID is your gateway to sovereign identity. We are leveraging LightLink Infrastructure to mint digital identities and credentials as NFTs (in form of SBTs).
 
 ## Table of Contents
 
@@ -66,7 +66,25 @@ Follow these instructions to set up and run the project:
 
 ## Deployed Contracts on Blockscout
 
+- AUTH
+
 ## Our Solution (Architecture)
+
+### Admin
+
+- You can register as an Admin by providing your name and industry after connecting your wallet.
+- An authorization token will be minted against the admin address to verify in future that the admin is registered or not on SovID.
+- If registered you will be taken to the admin dashboard.
+- An admin can issue the SovID specified SBTs to users.
+- Can send verification requests for SBTs.
+
+### User
+
+- You can register as a User by providing your name after connecting your wallet.
+- An authorization token will be minted against the user address to verify in future that the user is registered or not on SovID.
+- If registered you will be taken to the user dashboard.
+- A user can view the SovID owned SBTs .
+- Can approve verification requests from admins.
 
 ## Team
 
