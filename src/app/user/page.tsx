@@ -20,22 +20,25 @@ const User = () => {
 
   const [open, setOpen] = React.useState(true);
   const { address } = useAccount();
-  const { config } = usePrepareContractWrite({
+
+  const { write, data, error, isLoading, isError } = useContractWrite({
     address: sbts.AUTH.sbtAddress,
     abi: sbts.AUTH.abi,
     functionName: "mintDefaultAuthSbtForTesting",
-    args: [address, formData.userName, "individual", []],
+    args: [address, formData.userName, "individual", [sbts.EDU.sbtAddress]],
   });
-
-  const { write, data, error, isLoading, isError } = useContractWrite(config);
   const {
     data: receipt,
     isLoading: isPending,
     isSuccess,
   } = useWaitForTransaction({ hash: data?.hash });
 
+  console.log(error);
+
   function mintDefaultAuthSbtForTesting(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    console.log("Address :", address, "User Name:", formData.userName);
+
     write?.();
     setFormData({});
   }
