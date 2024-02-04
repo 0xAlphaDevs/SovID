@@ -17,8 +17,9 @@ import { authorizedUserTokenContractConfig } from "@/lib/contracts";
 const Admin = () => {
   const { address, isDisconnected } = useAccount();
   const router = useRouter();
-  const [isUnregistered, setIsUngistered] = useState(false);
+  const [isUnregistered, setIsUnregistered] = useState(false);
 
+  // to check if the user is registered or not
   const { error, isLoading, isSuccess } = useContractRead({
     ...authorizedUserTokenContractConfig,
     functionName: "getVerifiedUserMetadata",
@@ -26,7 +27,7 @@ const Admin = () => {
     onSuccess: (data: any) => {
       if (data?.userName === "") {
         // router.push("/");
-        setIsUngistered(true);
+        setIsUnregistered(true);
       } else if (data?.category === "individual") {
         router.push("/user/dashboard");
       } else router.push("/admin/dashboard");
@@ -38,7 +39,7 @@ const Admin = () => {
 
   return (
     <>
-      {address && (
+      {isDisconnected && (
         <>
           <HomeNavbar />
           <div className="text-center">
@@ -65,7 +66,10 @@ const Admin = () => {
             </Card>
           </div>
           {isUnregistered && (
-            <Card placeholder="" className="mt-6 mx-20 py-8">
+            <div className="text-center mt-6 mx-20 py-8">
+              {" "}
+              {/* <Card placeholder="" className="mt-6 mx-20 py-8"> */}
+              You are not registered
               <Typography
                 placeholder=""
                 variant="h5"
@@ -93,7 +97,8 @@ const Admin = () => {
                   Admin
                 </Button>
               </div>
-            </Card>
+              {/* </Card> */}
+            </div>
           )}
         </>
       )}
