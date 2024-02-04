@@ -50,6 +50,14 @@ const App = () => {
                 placeholder=""
                 variant="h5"
                 color="blue-gray"
+                className="mb-2 font-semibold text-purple-400"
+              >
+                Your gateway to sovereign identity
+              </Typography>
+              <Typography
+                placeholder=""
+                variant="h5"
+                color="blue-gray"
                 className="mb-2"
               >
                 Hello there 👋

@@ -33,12 +33,17 @@ Follow these instructions to set up and run the project:
 
 ## Deployed Contracts
 
-- AUTH
+- Authorization Token : `0x6FB9EB6826B0978510E6d2F7623c3bC9A3dC9627`
+- Educational ID : `0x3DaA9b9f3Ba4A5828473075CE68C704FEC124E73`
+- Employee ID : `0x456A103F7B5b8A5401a99eF244029b8C67c2BE78`
+- National ID : `0x4612869797A1F8Ec40d5fC12FE17519674dAcf30`
+- Passport ID : `0x8dc7202c27De1d423AE8011F898Ca172AF28B762`
 
 ## Protocol Specs
 
 - Lightlink Pegasus Testnet
-- Blockscout for verifying ownership of a smart contract and added private tags.
+- Blockscout for verifying smart contracts and adding ownership and tags.
+- Solidity & Hardhat for contracts development
 - Tailwind CSS & Material Tailwind ( UI )
 - Next JS & Vercel (Front-end & Deployment)
 
@@ -59,6 +64,7 @@ Follow these instructions to set up and run the project:
 
 ## Tech Stack
 
+- Blockscout
 - Next JS
 - Typescript
 - Tailwind CSS
@@ -67,6 +73,8 @@ Follow these instructions to set up and run the project:
 - wagmi
 - view
 - @wagmi/core
+- Hardhat
+- Solidity
 
 ## Our Solution (Architecture)
 
