@@ -33,11 +33,11 @@ Follow these instructions to set up and run the project:
 
 ## Deployed Contracts
 
-- Authorization Token : `0x6FB9EB6826B0978510E6d2F7623c3bC9A3dC9627`
-- Educational ID : `0x3DaA9b9f3Ba4A5828473075CE68C704FEC124E73`
-- Employee ID : `0x456A103F7B5b8A5401a99eF244029b8C67c2BE78`
-- National ID : `0x4612869797A1F8Ec40d5fC12FE17519674dAcf30`
-- Passport ID : `0x8dc7202c27De1d423AE8011F898Ca172AF28B762`
+- Authorization Token : [`0x6FB9EB6826B0978510E6d2F7623c3bC9A3dC9627`](https://pegasus.lightlink.io/address/0x6FB9EB6826B0978510E6d2F7623c3bC9A3dC9627?tab=contract)
+- Educational ID : [`0x3DaA9b9f3Ba4A5828473075CE68C704FEC124E73`](https://pegasus.lightlink.io/address/0x3DaA9b9f3Ba4A5828473075CE68C704FEC124E73?tab=contract)
+- Employee ID : [`0x456A103F7B5b8A5401a99eF244029b8C67c2BE78`](https://pegasus.lightlink.io/address/0x456A103F7B5b8A5401a99eF244029b8C67c2BE78?tab=contract)
+- National ID : [`0x4612869797A1F8Ec40d5fC12FE17519674dAcf30`](https://pegasus.lightlink.io/address/0x4612869797A1F8Ec40d5fC12FE17519674dAcf30?tab=contract)
+- Passport ID : [`0x8dc7202c27De1d423AE8011F898Ca172AF28B762`](https://pegasus.lightlink.io/address/0x8dc7202c27De1d423AE8011F898Ca172AF28B762?tab=contract)
 
 ## Protocol Specs
 

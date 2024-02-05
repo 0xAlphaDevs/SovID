@@ -22,7 +22,7 @@ export const config = createConfig(
     // Required API Keys
     alchemyId: process.env.ALCHEMY_ID,
     walletConnectProjectId: process.env.WALLETCONNECT_PROJECT_ID || "",
-    chains: [hardhat, lightlikPegasusTestnet],
+    chains: [lightlikPegasusTestnet],
 
     // Required
     appName: "SovID",
